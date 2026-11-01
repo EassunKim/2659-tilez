@@ -1,6 +1,5 @@
 # TileZ
 
-
 ## Authors
 
 - Matthew Kim
@@ -11,21 +10,33 @@
 
 Model, raster graphics library, and renderer.
 
+### testing
+
+Testing is currently done through the make file. Running the bellow commands will create a .tos for each
+of our testers.
+
+```
+make               builds the model test driver, tst_modl.tos
+make tst_rast.tos  builds the raster library test driver
+make rendtest.tos  builds the renderer unit test
+make tst_rend.tos  builds the renderer test driver (draws on screen)
+make all           builds all four
+```
+
 ### Mohamad Hamade (raster graphics and renderer)
 
-| File | Description |
-| ----|----------- |
-| `rast_asm.s` | Assembly raster library with 9 functions for clearing the screen and drawing pixels, lines, and shapes. |
-| `raster.h` | Header file declaring all 14 raster graphics functions. |
-| `renderer.c` / `renderer.h` | Renderer functions for drawing tiles, walls, the game board, and player. |
-
+| File                        | Description                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `rast_asm.s`                | Assembly raster library with 9 functions for clearing the screen and drawing pixels, lines, and shapes. |
+| `raster.h`                  | Header file declaring all 14 raster graphics functions.                                                 |
+| `renderer.c` / `renderer.h` | Renderer functions for drawing tiles, walls, the game board, and player.                                |
 
 ### Ujjwal Bhandari ()
 
-| File | Description |
-| --- | --- |
-| Rast_asm.s| Raster library containing many methods to plot pixels, lines, shapes, bitmaps, and characters. My focus was on implementing the bitmap functions along with single characters and strings. |
-|TEST.c| Contains multiple test cases for each raster function. Bitmap/Char tests are based around boundary handling, input handling, and base cases. Verifies expected results and reports a pass/fail.|
+| File       | Description                                                                                                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rast_asm.s | Raster library containing many methods to plot pixels, lines, shapes, bitmaps, and characters. My focus was on implementing the bitmap functions along with single characters and strings.      |
+| TEST.c     | Contains multiple test cases for each raster function. Bitmap/Char tests are based around boundary handling, input handling, and base cases. Verifies expected results and reports a pass/fail. |
 
 ### Matthew Kim (model and events)
 
