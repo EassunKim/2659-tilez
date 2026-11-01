@@ -1,0 +1,8 @@
+checkpoint/
+*.o
+*.O
+*.tos
+plot8bit.c
+plot16.c
+plot32.c
+plotch.c

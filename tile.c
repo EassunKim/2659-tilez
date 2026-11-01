@@ -1,0 +1,43 @@
+#include "tile.h"
+
+/*----- Function: tile_init -----
+*
+* PURPOSE:  initializes a tile struct with type and wall value
+*
+* INPUT:    tile  - a tile object
+*           type  - the tile type (values in tile.h)
+*           walls - a UINT8 describing which walls are on a tile (see tile.h as well)
+*
+* OUTPUT:   None
+*/
+void tile_init(Tile* tile, UINT8 type, UINT8 walls) {
+    tile->type = type;
+    tile->walls = walls;
+}
+
+/*----- Function: check_walls -----
+* PURPOSE: Checks if a wall is present in a certain direction of a tile. will be used for both player movement and rendering
+*
+* INPUT:   tile  - a target Tile object
+8          side  - a direction (0-3)
+*
+* OUTPUT:  TRUE if a wall is present, FALSE if not
+*/
+BOOL tile_check_walls(const Tile* tile, UINT8 side) {
+    return (tile->walls & (1 << side)) != 0;
+}
+
+/*----- Function: tile_add_wall -----
+*
+* PURPOSE:  add a wall on a certain side of a tile
+*
+* INPUT:    side - a direction (0-3)
+*           tile  - a target Tile object
+*
+* OUTPUT:   None
+*/
+void tile_add_wall(Tile* tile, UINT8 side) {
+    tile->walls |= (1 << side);
+}
+
+
