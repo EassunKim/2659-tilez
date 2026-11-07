@@ -6,6 +6,8 @@
 - Mohamad Hamade
 - Ujjwal Bhandari
 
+## Checkpoint 3 - November 10
+
 ## Checkpoint 2 - October 19
 
 Model, raster graphics library, and renderer.
@@ -15,7 +17,7 @@ Model, raster graphics library, and renderer.
 Testing is currently done through the make file. Running the bellow commands will create a .tos for each
 of our testers.
 
-```
+```asm
 make               builds the model test driver, tst_modl.tos
 make tst_rast.tos  builds the raster library test driver
 make rendtest.tos  builds the renderer unit test
