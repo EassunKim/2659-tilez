@@ -56,5 +56,3 @@ make all           builds all four
 | `tst_modl.c`            | Tester for my model. Includes a check function that will essentially check the values in the model and return a pass or fail after one of our events is called.                                                                      |
 | `tst_rast.c`            | Similar to the above tester. Print replaced with render() from renderer.c but still returns a pass or fail and the totals                                                                                                            |
 | `MAKEFILE`              | Our make file. AI (Gemini) was prompted to teach me how to make a 3 way make file (since we have 3 testers) as I had never seen it. An example was provided but code is all my own                                                   |
-
-Note on tests: Due to time constraints, and underestimating how long it would take to plot out every scenario, the tester does not currently verify behaviors for walls, void or slip.
