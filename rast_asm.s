@@ -1297,7 +1297,7 @@ pr_done:
 
 _plot_square:
         link    a6,#0
-        movem.l d0/a0,-(sp)
+        movem.l d0-d2/a0,-(sp)
 
         movea.l 8(a6),a0
         move.w  12(a6),d0
@@ -1314,7 +1314,7 @@ _plot_square:
         jsr     _plot_rectangle
         lea     12(sp),sp
 
-        movem.l (sp)+,d0/a0
+        movem.l (sp)+,d0-d2/a0
         unlk    a6
         rts
 

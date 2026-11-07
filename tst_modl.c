@@ -63,6 +63,7 @@ static char dir_char(UINT8 facing) {
 
 /*----- Function: wait_key -----
 * PURPOSE: pauses screen
+*/
 static void wait_key(void) {
     printf("-- press any key --\n");
     getchar();
