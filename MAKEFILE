@@ -34,7 +34,7 @@ rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
 	cc68x -g rendtest.o $(RENDER_OBJS) $(RASTER_OBJS) -o rendtest.tos
 
 tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
-	cc68x -g tst_rend.o $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
+	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
 
 all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos
 

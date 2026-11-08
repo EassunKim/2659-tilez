@@ -4,10 +4,15 @@
 #include "types.h"
 
 #define TILE_HEIGHT  32
+#define TILE_WIDTH 32
+
 #define CHAR_HEIGHT  16
 #define WALL_ATSU    4
 
 #define WALL_LENGTH  36 /* extending the walls to 36 for a consistent look when walls are rendered*/
+#define WALL_OFFSET 2  /* offset for the walls to be drawn on the correct side of the tile*/
+
+#define CHAR_OFFSET 8 /*due to the characters being 16x16 we need to displace them so they are in the middle of the tile*/
 
 extern const UINT32 tile_bitmaps[5][TILE_HEIGHT];   /* the index will match the tile type in tiles.h; 0 for void etc.  */
 extern const UINT16 player_bitmaps[4][CHAR_HEIGHT]; /* index matches directions in tiles.h  */

@@ -5,74 +5,35 @@
 
 #include "bitmaps.h"
 
-#define TILE_WIDTH 32
-/* #define TILE_HEIGHT 32 
-commented out during bitmap integration
-*/
 
 void render_tile(const Tile *tile, UINT8 *base, int row, int col)
 {
-    /* Do not draw void tiles */
-    if (tile->type == T_VOID)
-    {
-        return;
-    }
+    plot_32bit_bitmap((UINT32 *)base, row, col, tile_bitmaps[tile->type], TILE_HEIGHT);
 
-    /* Draw the outline of the tile */
-    plot_rectangle((UINT32 *)base, row, col, TILE_HEIGHT, TILE_WIDTH);
-
-    /* Draw a fire tile */
-    if (tile->type == T_FIRE)
-    {
-        plot_triangle((UINT32 *)base, row + 8, col + 10, 12, 16, 0);
-    }
-
-    /* Draw a goal tile */
-    else if (tile->type == T_GOAL)
-    {
-        plot_square((UINT32 *)base, row + 8, col + 8, 16);
-    }
-
-    /* Draw a slip tile */
-    else if (tile->type == T_SLIP)
-    {
-        plot_line((UINT32 *)base, row + 8, col + 8,
-                  row + 16, col + 16);
-
-        plot_line((UINT32 *)base, row + 16, col + 16,
-                  row + 8, col + 24);
-    }
 
     render_walls(tile, base, row, col);
-
-    /* Normal tiles only have the outline */
 }
 
 
 void render_walls(const Tile *tile, UINT8 *base, int row, int col)
 {
-    if (tile->walls & WALL_NORTH)
-    {
-        plot_horizontal_line((UINT32 *)base, row, col, TILE_WIDTH);
+    /* one case for each wall */
+    if (tile->walls & WALL_NORTH) {
+    plot_32bit_bitmap((UINT32 *)base, row - WALL_OFFSET, col, wall_horizontal, WALL_ATSU);
     }
 
-    if (tile->walls & WALL_EAST)
-    {
-        plot_vertical_line((UINT32 *)base, row,
-                           col + TILE_WIDTH - 1, TILE_HEIGHT);
+    if (tile->walls & WALL_SOUTH) {
+    plot_32bit_bitmap((UINT32 *)base, row + TILE_HEIGHT - WALL_OFFSET, col, wall_horizontal, WALL_ATSU);
+    }
+    
+    if (tile->walls & WALL_EAST) {
+    plot_32bit_bitmap((UINT32 *)base, row - WALL_OFFSET, col + TILE_WIDTH - WALL_OFFSET, wall_vertical, WALL_LENGTH);
     }
 
-    if (tile->walls & WALL_SOUTH)
-    {
-        plot_horizontal_line((UINT32 *)base,
-                             row + TILE_HEIGHT - 1,
-                             col, TILE_WIDTH);
+    if (tile->walls & WALL_WEST) {
+    plot_32bit_bitmap((UINT32 *)base, row - WALL_OFFSET, col - WALL_OFFSET, wall_vertical, WALL_LENGTH);
     }
 
-    if (tile->walls & WALL_WEST)
-    {
-        plot_vertical_line((UINT32 *)base, row, col, TILE_HEIGHT);
-    }
 }
 
 void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
@@ -99,24 +60,17 @@ void render_player(const Player *player, UINT8 *base)
     row = 40 + player->y * TILE_HEIGHT;
     col = 160 + player->x * TILE_WIDTH;
 
-    plot_square((UINT32 *)base, row + 8, col + 8, 16);
+    plot_16bit_bitmap((UINT16 *)base, row+ CHAR_OFFSET, col+ CHAR_OFFSET, player_bitmaps[player->facing], CHAR_HEIGHT);
+}
 
-    if (player->facing == NORTH)
-    {
-        plot_vertical_line((UINT32 *)base, row + 4, col + 16, 5);
-    }
-    else if (player->facing == EAST)
-    {
-        plot_horizontal_line((UINT32 *)base, row + 16, col + 23, 5);
-    }
-    else if (player->facing == SOUTH)
-    {
-        plot_vertical_line((UINT32 *)base, row + 23, col + 16, 5);
-    }
-    else if (player->facing == WEST)
-    {
-        plot_horizontal_line((UINT32 *)base, row + 16, col + 4, 5);
-    }
+void render_ally(const Player *player, UINT8 *base)
+{
+    int row, col;
+
+    row = 40 + player->y * TILE_HEIGHT;
+    col = 160 + player->x * TILE_WIDTH;
+
+    plot_16bit_bitmap((UINT16 *)base, row + CHAR_OFFSET, col+ CHAR_OFFSET, ally_bitmaps[player->facing], CHAR_HEIGHT);
 }
 
 
@@ -131,7 +85,6 @@ void render_player(const Player *player, UINT8 *base)
 * OUTPUT:  None
 *
 * ASSUMPTIONS: Redraws everything each call (no minimised plotting yet).
-*              The player and ally are drawn the same way for now.
 */
 void render(const Model *model, UINT8 *base)
 {
@@ -139,5 +92,5 @@ void render(const Model *model, UINT8 *base)
 
     render_board(model->grid, base);
     render_player(&model->player, base);
-    render_player(&model->ally, base);
+    render_ally(&model->ally, base);
 }
