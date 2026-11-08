@@ -5,26 +5,22 @@
 #   make rendtest.tos  builds the renderer unit test
 #   make tst_rend.tos  builds the renderer test driver (draws on screen)
 #   make all           builds all four
-#
-# The raster library is entirely in assembly (rast_asm.s) plus the font
-# data (font.c). raster.c holds the old C drafts and is NOT built.
-#
-# Every .o lists its source file plus EVERY header it includes, directly or
-# through another header, so editing a header rebuilds what depends on it.
 
 # header groups (each includes the ones it depends on)
-PLAYER_H   = player.h types.h
-TILE_H     = tile.h types.h
-LEVELS_H   = levels.h $(TILE_H) $(PLAYER_H)
-MODEL_H    = model.h $(LEVELS_H)
-EVENTS_H   = events.h asynch.h synch.h cond.h $(MODEL_H)
-RASTER_H   = raster.h types.h
-FONT_H     = font.h types.h
-RENDERER_H = renderer.h $(MODEL_H)
+PLAYER_H	= player.h types.h
+TILE_H     	= tile.h types.h
+LEVELS_H   	= levels.h $(TILE_H) $(PLAYER_H)
+MODEL_H    	= model.h $(LEVELS_H)
+EVENTS_H   	= events.h asynch.h synch.h cond.h $(MODEL_H)
+RASTER_H   	= raster.h types.h
+FONT_H     	= font.h types.h
+RENDERER_H 	= renderer.h $(MODEL_H)
+BITMAPS_H  	= bitmaps.h types.h
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
 RASTER_OBJS = rast_asm.o font.o
+RENDER_OBJS = renderer.o bitmaps.o
 
 # ---------- programs ----------
 
@@ -34,11 +30,11 @@ tst_modl.tos: tst_modl.o $(MODEL_OBJS)
 tst_rast.tos: TEST.o $(RASTER_OBJS)
 	cc68x -g TEST.o $(RASTER_OBJS) -o tst_rast.tos
 
-rendtest.tos: rendtest.o renderer.o $(RASTER_OBJS)
-	cc68x -g rendtest.o renderer.o $(RASTER_OBJS) -o rendtest.tos
+rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
+	cc68x -g rendtest.o $(RENDER_OBJS) $(RASTER_OBJS) -o rendtest.tos
 
-tst_rend.tos: tst_rend.o renderer.o $(MODEL_OBJS) $(RASTER_OBJS)
-	cc68x -g tst_rend.o renderer.o $(MODEL_OBJS) $(RASTER_OBJS) -o tst_rend.tos
+tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
+	cc68x -g tst_rend.o $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
 
 all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos
 
@@ -77,8 +73,13 @@ rast_asm.o: rast_asm.s
 
 # ---------- renderer ----------
 
-renderer.o: renderer.c $(RENDERER_H) $(RASTER_H)
+renderer.o: renderer.c $(BITMAPS_H) $(RENDERER_H) $(RASTER_H)
 	cc68x -g -c renderer.c
+
+# ---------- BITMAPS ----------
+
+bitmaps.o: bitmaps.c $(BITMAPS_H)
+	cc68x -g -c bitmaps.c
 
 # ---------- tests ----------
 

@@ -3,8 +3,12 @@
 #include "raster.h"
 #include "types.h"
 
+#include "bitmaps.h"
+
 #define TILE_WIDTH 32
-#define TILE_HEIGHT 32
+/* #define TILE_HEIGHT 32 
+commented out during bitmap integration
+*/
 
 void render_tile(const Tile *tile, UINT8 *base, int row, int col)
 {
