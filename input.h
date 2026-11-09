@@ -28,7 +28,8 @@ BOOL has_input(void);
 *
 * INPUT: None
 *
-* OUTPUT: char - The next input from the user
+* OUTPUT: char - The next input from the user or 0 until an input is read
+
 */
 char get_input(void);
 #endif

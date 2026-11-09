@@ -17,6 +17,7 @@ FONT_H     	= font.h types.h
 RENDERER_H 	= renderer.h $(MODEL_H)
 BITMAPS_H  	= bitmaps.h types.h
 INPUT_H		= input.h types.h
+EVENTS_H	= cond.h asynch.h synch.h
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
@@ -37,7 +38,10 @@ rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
 tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
 	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
 
-all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos
+tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o
+	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o -o tilez.tos
+
+all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos
 
 # ---------- model ----------
 
@@ -85,6 +89,10 @@ bitmaps.o: bitmaps.c $(BITMAPS_H)
 # ---------- input ----------
 input.o: input.c $(INPUT_H)
 	cc68x -g -c input.c
+
+# ---------- main game ----------	
+tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H)
+	cc68x -g -c tilez.c
 
 # ---------- tests ----------
 

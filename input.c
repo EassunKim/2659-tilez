@@ -6,5 +6,9 @@ BOOL has_input(void) {
 }
 
 char get_input(void) {
+    if (!has_input()) {
+        return 0;
+    } else {
     return((char)Cnecin());
+    }
 }
