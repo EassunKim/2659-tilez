@@ -20,7 +20,7 @@ void cond_after_move(Model *model, BOOL player_moved, BOOL ally_moved);
 
 
 /* Declarations */
-/*----- Function: cond_after_move -----
+/*----- Function: cond_check -----
  PURPOSE: call to cond_after_move for the inout requests. Will do the condition check that was tested in 
           checkpoint 2 and will reset the player_moved and ally_moved flags to false after the check.
 
@@ -28,6 +28,6 @@ void cond_after_move(Model *model, BOOL player_moved, BOOL ally_moved);
 
  OUTPUT: None
 */
-void cond_check(Model *model)
+void cond_check(Model *model);
 
 #endif

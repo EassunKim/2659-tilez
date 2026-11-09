@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "model.h"
 #include "events.h"
+#include "asynch.h"
+#include "synch.h"
 
 static int passed = 0;
 static int failed = 0;
@@ -145,6 +147,8 @@ static void apply_key(Model *model, char key) {
         case 'S': asynch_turn_around(model);  
         break;
     }
+    synch_req(model);
+    cond_check(model);
 }
 
 /*----- Function: run_route -----

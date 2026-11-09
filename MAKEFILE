@@ -16,6 +16,7 @@ RASTER_H   	= raster.h types.h
 FONT_H     	= font.h types.h
 RENDERER_H 	= renderer.h $(MODEL_H)
 BITMAPS_H  	= bitmaps.h types.h
+INPUT_H		= input.h types.h
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
@@ -80,6 +81,10 @@ renderer.o: renderer.c $(BITMAPS_H) $(RENDERER_H) $(RASTER_H)
 
 bitmaps.o: bitmaps.c $(BITMAPS_H)
 	cc68x -g -c bitmaps.c
+
+# ---------- input ----------
+input.o: input.c $(INPUT_H)
+	cc68x -g -c input.c
 
 # ---------- tests ----------
 

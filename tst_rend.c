@@ -101,6 +101,8 @@ static void apply_key(Model *model, char key) {
         case 'S': asynch_turn_around(model);
         break;
     }
+    synch_req(model);
+    cond_check(model);
 }
 
 /*----- Function: show_frame -----
