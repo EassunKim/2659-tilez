@@ -77,6 +77,20 @@ void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
  */
 void render_player(const Player *player, UINT8 *base);
 
+/*----- Function: render_player -----
+ *
+ * PURPOSE: Draws the ally bitmap based on its position
+ *          and facing direction.
+ *
+ * INPUT: player - pointer to the player to draw.
+ *        base - pointer to the screen buffer.
+ *
+ * OUTPUT: None.
+ *
+ * ASSUMPTIONS: Player position and direction are valid.
+ */
+void render_ally(const Player *player, UINT8 *base);
+
 
 void render(const Model *model, UINT8 *base);
 #endif

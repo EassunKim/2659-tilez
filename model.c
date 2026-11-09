@@ -40,6 +40,11 @@ void model_load_level(Model *model, UINT8 select) {
     /* time (just to have a sync)*/
     model->tick_count = 0;
     model->seconds = 0;
+
+    /* checkpoint 3 movements*/
+    model->input = REQ_NONE;
+    model->player_moved = FALSE;
+    model->ally_moved = FALSE;
     
     model_reset_level(model);
     return;

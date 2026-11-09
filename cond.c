@@ -45,18 +45,6 @@ static void check_goal(Model *model) {
         model->level_complete = TRUE;
 }
 
-/*----- Function: cond_after_move -----
- PURPOSE: Applies all tile effects after a forward move, in order:
-          slips, then fire, then goal.
-
- INPUT: model - the model to update
-        player_moved - TRUE if the player stepped this turn
-        ally_moved   - TRUE if the ally stepped this turn
-
- OUTPUT: None
-
- NOTE:   Slips are resolved first so a slide onto fire is caught.
-*/
 void cond_after_move(Model *model, BOOL player_moved, BOOL ally_moved) {
     apply_slip(model, &model->player, &model->ally, player_moved);
     apply_slip(model, &model->ally, &model->player, ally_moved);
@@ -65,4 +53,10 @@ void cond_after_move(Model *model, BOOL player_moved, BOOL ally_moved) {
         return;
 
     check_goal(model);
+}
+
+void cond_check(Model *model) {
+    cond_after_move(model, model->player_moved, model->ally_moved);
+    model->player_moved = FALSE;
+    model->ally_moved = FALSE;
 }

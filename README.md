@@ -3,7 +3,7 @@
 ## Authors
 
 - Matthew Kim
-- Mohamad Hamade
+- Mohamad Hamade (Withdrew from course after work on checkpoint 2)
 - Ujjwal Bhandari
 
 ## Checkpoint 3 - November 10
