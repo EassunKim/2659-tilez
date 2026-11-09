@@ -1,27 +1,20 @@
 #include "asynch.h"
-#include "cond.h"
 
 /*----- Function: asynch_forward -----
- PURPOSE: Handles the forward key (W). Moves the player then the ally, then
-          applies any tile effects (slip, fire, goal).
+ PURPOSE: Handles the forward key (W). Requests the player and ally to step forward.
 
  INPUT: model - the model to update
 
  OUTPUT: None
 */
 void asynch_forward(Model *model) {
-    BOOL player_moved;
-    BOOL ally_moved;
-
     if (model->level_complete)
         return;
-
-    model_move_forward(model, &player_moved, &ally_moved);
-    cond_after_move(model, player_moved, ally_moved);
+    model->input = REQ_FORWARD;
 }
 
 /*----- Function: asynch_rotate_left -----
- PURPOSE: Handles the rotate-left key (A). Rotates both characters left.
+ PURPOSE: Handles the rotate-left key (A). Requests a rotation left
 
  INPUT: model - the model to update
 
@@ -31,11 +24,11 @@ void asynch_rotate_left(Model *model) {
     if (model->level_complete)
         return;
 
-    model_rotate_left(model);
+    model->input = REQ_LEFT;
 }
 
 /*----- Function: asynch_rotate_right -----
- PURPOSE: Handles the rotate-right key (D). Rotates both characters right.
+ PURPOSE: Handles the rotate-right key (D). Requests a rotation right
 
  INPUT: model - the model to update
 
@@ -46,11 +39,11 @@ void asynch_rotate_right(Model *model) {
     if (model->level_complete)
         return;
 
-    model_rotate_right(model);
+    model->input = REQ_RIGHT;
 }
 
 /*----- Function: asynch_turn_around -----
- PURPOSE: Handles the turn-around key (S). Turns both characters 180 degrees.
+ PURPOSE: Handles the turn-around key (S). Requests a 180-degree turn for both characters.
 
  INPUT: model - the model to update
 
@@ -60,5 +53,5 @@ void asynch_turn_around(Model *model) {
     if (model->level_complete)
         return;
 
-    model_turn_around(model);
+    model->input = REQ_BACK;
 }

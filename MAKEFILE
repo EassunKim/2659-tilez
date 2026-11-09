@@ -54,7 +54,7 @@ model.o: model.c $(MODEL_H)
 
 # ---------- events ----------
 
-asynch.o: asynch.c asynch.h cond.h $(MODEL_H)
+asynch.o: asynch.c asynch.h $(MODEL_H)
 	cc68x -g -c asynch.c
 
 synch.o: synch.c synch.h $(MODEL_H)
