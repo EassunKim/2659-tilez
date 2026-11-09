@@ -79,4 +79,7 @@ void render_player(const Player *player, UINT8 *base);
 
 
 void render(const Model *model, UINT8 *base);
+
+void render_changes(const Model *current, const Model *previous, UINT8 *base);
+
 #endif

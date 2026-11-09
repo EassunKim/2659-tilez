@@ -129,6 +129,91 @@ void render_player(const Player *player, UINT8 *base)
 * ASSUMPTIONS: Redraws everything each call (no minimised plotting yet).
 *              The player and ally are drawn the same way for now.
 */
+
+/*redraw_tile - clears and redraws a single tile and any players on it*/
+
+static void redraw_tile(const Model *model, UINT8 *base, int row, int col)
+{
+    int screen_row = 40 + row * TILE_HEIGHT;
+    int screen_col = 160 + col * TILE_WIDTH;
+
+    clear_region((UINT32 *)base, screen_row, 
+                screen_col, TILE_HEIGHT, TILE_WIDTH);
+
+    render_tile(&model->grid[row][col], base,
+                screen_row, screen_col);
+
+    if (model->player.x == col && model->player.y == row)
+    {
+        render_player(&model->player, base);
+    }
+
+    if (model->ally.x == col && model->ally.y == row)
+    {
+        render_player(&model->ally, base);
+    }
+    
+
+}
+/*Player_changed - checks if a player position or direction changed*/
+static int player_changed(const Player *current, const Player *previous)
+{
+    return current->x != previous->x || current->y != previous->y ||
+            current->facing != previous->facing;
+}
+
+/*redraw_player_changes - redraws tiles affect by player movement or rotation*/
+static void redraw_player_changes(const Model *model, const Player *current, 
+                                const Player *previous, UINT8 *base)
+{
+    if (player_changed(current, previous))
+    {
+        redraw_tile(model, base, previous->y, previous->x);
+
+        if (current->x != previous ->x ||
+            current->y != previous ->y )
+        {
+                redraw_tile(model, base, current->y, current->x);
+        }
+    }
+}
+/*finds and redraws changed tiles*/
+static void redraw_board_changes(const Model *current, const Model *previous,
+                                UINT8 *base)
+{
+    int row, col;
+
+    for (row = 0; row < GRID_HEIGHT; row++)
+    {
+        for (col = 0; col < GRID_WIDTH; col++)
+        {
+            if (current->grid[row][col].type !=
+                previous->grid[row][col].type ||
+                current->grid[row][col].walls !=
+                previous->grid[row][col].walls)
+            {
+                redraw_tile(current, base, row, col);
+            }
+        }
+    }
+}
+/*Updates only changed parts of the screen*/
+void render_changes(const Model *current, const Model *previous, UINT8 *base)
+{
+    if (current->level_select != previous->level_select)
+    {
+        render(current, base);
+        return;
+    }
+
+    redraw_board_changes(current, previous, base);
+
+    redraw_player_changes(current, &current->player,
+                         &previous->player, base);
+
+    redraw_player_changes(current, &current->ally,
+                         &previous->ally, base);
+}
 void render(const Model *model, UINT8 *base)
 {
     clear_screen((UINT32 *)base);
