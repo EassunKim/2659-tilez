@@ -7,6 +7,9 @@
 - Ujjwal Bhandari
 
 ## Checkpoint 3 - November 10
+### Ujjwal Bhandari (Renderer.c/h, tilez.c/h)
+| `Renderer.c  / renderer.h`      | The renderer was implemented without Minimized Screen Plotting in CP2, it is implemented now. Using checks to confirm change, and previously designed raster functions to prevent redrawing the entire board. |
+| `Tilez.c /  Tilez.h`   | Implemented double buffering within Tilez.c, where screen buffers are alternated. Which reduces flickering and improves rendering speed.|
 
 ## Checkpoint 2 - October 19
 
