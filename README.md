@@ -7,9 +7,27 @@
 - Ujjwal Bhandari
 
 ## Checkpoint 3 - November 10
+Our game is now in a playable state. The WASD commands work to move the character and the screen is updated on tick as intended. At this point we have 'level 0' in the game as a way of testing out every tile type and movement. Proper puzzle levels will be added as we go through and the main game loop already loops through the levels, though there is only one at the moment. 
+
+### Usage 
+```asm
+make all
+tilez.c
+```
+
 ### Ujjwal Bhandari (Renderer.c/h, tilez.c/h)
-| `Renderer.c  / renderer.h`      | The renderer was implemented without Minimized Screen Plotting in CP2, it is implemented now. Using checks to confirm change, and previously designed raster functions to prevent redrawing the entire board. |
-| `Tilez.c /  Tilez.h`   | Implemented double buffering within Tilez.c, where screen buffers are alternated. Which reduces flickering and improves rendering speed.|
+
+| File                        | Description                                                                                             |
+| --- | --- |
+| `Renderer.c  / renderer.h`  | The renderer was implemented without Minimized Screen Plotting in CP2, it is implemented now. Using checks to confirm change, and previously designed raster functions to prevent redrawing the entire board. |
+| `Tilez.c /  Tilez.h`        | Implemented double buffering within Tilez.c, where screen buffers are alternated. Which reduces flickering and improves rendering speed.|
+
+### Matthew Kim (Tilez.c, input.c/h)
+| File                        | Description                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `Tiles.c`                | Implemented the main game loop, as well as timing functions to make input module work|
+| `input.c/h`                  | Created the input module. Will take in an input, save it to the model and update the screen based on it on the next tick |
+| Other Fixes | Changed renderer to use new bitmaps in bitmaps.c to replace placeholders from checkpoint2  |
 
 ## Checkpoint 2 - October 19
 
