@@ -93,4 +93,18 @@ void render_ally(const Player *player, UINT8 *base);
 
 
 void render(const Model *model, UINT8 *base);
+
+/*----- Function: render_changes -----
+* PURPOSE: Redraws only parts of the game board that have been changed between current
+*          and previous models.  
+*
+* INPUT:   current  - Current game model
+*          previous - Previous model for comparing
+*          base     - Start of the game buffer to draw into
+*
+* OUTPUT:  Updates the screen buffer
+*
+* ASSUMPTIONS: Will redraw board on level changes
+*/
+void render_changes(const Model *current, const Model *previous, UINT8 *base);
 #endif
