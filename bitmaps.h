@@ -7,10 +7,10 @@
 #define TILE_WIDTH 32
 
 #define CHAR_HEIGHT  16
-#define WALL_ATSU    4
+#define WALL_ATSU    3
 
-#define WALL_LENGTH  36 /* extending the walls to 36 for a consistent look when walls are rendered*/
-#define WALL_OFFSET 2  /* offset for the walls to be drawn on the correct side of the tile*/
+#define WALL_LENGTH  16 
+#define WALL_OFFSET 8  /* offset for the walls to be drawn on the correct side of the tile*/
 
 #define CHAR_OFFSET 8 /*due to the characters being 16x16 we need to displace them so they are in the middle of the tile*/
 

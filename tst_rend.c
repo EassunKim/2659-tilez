@@ -117,13 +117,23 @@ static void apply_key(Model *model, char key) {
 
 * From Model: takes place of print_model
 */
-static void show_frame(const Model *model, UINT8 *base, char key, const char *label, const char *result) {
-    render(model, base);
+static void show_frame(UINT8 *base, char key,
+                       const char *label, const char *result)
+ {
+
+    
+    clear_region((UINT32 *)base, LABEL_ROW, TEXT_COL,
+                 32, 620);
+
     plot_character(base, LABEL_ROW, TEXT_COL, key);
-    plot_string(base, LABEL_ROW, TEXT_COL + KEY_WIDTH, (char *)label);
+
+    plot_string(base, LABEL_ROW,
+                TEXT_COL + KEY_WIDTH, (char *)label);
+
     plot_string(base, RESULT_ROW, TEXT_COL, (char *)result);
+
     Cnecin();
-    clear_screen((UINT32 *)base);
+
 }
 
 /*----- Function: run_route -----
@@ -136,14 +146,26 @@ static void show_frame(const Model *model, UINT8 *base, char key, const char *la
 *
 ** From Model: now uses show_frame for each move
 */
-static void run_route(Model *model, UINT8 *base, const Route *route, int count) {
-    int i;
-    const char *result;
+static void run_route(Model *model, UINT8 *base, const Route *route, int count) 
 
-    for (i = 0; i < count; i++) {
+{
+    int i; 
+    const char *result;
+    Model previous;
+
+    for (i = 0; i < count; i++)
+    {
+        previous = *model;
+
         apply_key(model, route[i].key);
-        result = check_step(model, &route[i]) ? "PASS" : "FAIL";
-        show_frame(model, base, route[i].key, route[i].test_label, result);
+
+        render_changes(model, &previous, base);
+
+        result = check_step(model, &route[i]) ?
+                 "PASS" : "FAIL";
+
+        show_frame(base, route[i].key,
+                   route[i].test_label, result);
     }
 }
 
@@ -151,21 +173,26 @@ static void run_route(Model *model, UINT8 *base, const Route *route, int count) 
 * PURPOSE: hides the text cursor, draws the spawn frame, plays the route,
 *          then restores the cursor and prints the totals
 */
-int main(void) {
-    Model model;
-    UINT8 *base = (UINT8 *)Physbase(); /*get frame buffer*/
+int main(void)
 
-    /* clear screen*/
+{
+    Model model;
+    UINT8 *base = (UINT8 *)Physbase();
+
     printf("\033f");
-    clear_screen((UINT32 *)base);
 
     model_load_level(&model, 0);
-    show_frame(&model, base, ' ', "level 0", "");
 
-    run_route(&model, base, Route0, sizeof(Route0) / sizeof(Route0[0]));
+    render(&model, base);
+    show_frame(base, ' ', "level 0", "");
+
+    run_route(&model, base, Route0,
+              sizeof(Route0) / sizeof(Route0[0]));
 
     printf("\033e");
     printf("%d passed, %d failed\n", passed, failed);
+
     Cnecin();
     return 0;
 }
+
