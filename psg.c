@@ -102,4 +102,39 @@ void set_noise(UINT8 tuning) {
     write_psg(NOISE_REG, tuning);
 }
 
-void set_envelope(UINT8 shape, UINT16 sustain)
+void set_envelope(UINT8 shape, UINT16 sustain) {
+    UINT8 fine;
+    UINT8 rough;
+    
+    /* Validate values */
+    if ( shape > MAX_ENV) {
+        return;
+    }
+
+    /* split sustain */
+    fine = sustain & 0xFF;
+    rough = sustain >> 8;
+
+    write_psg(ENV_FINE_REG, fine);
+    write_psg(ENV_RGH_REG, rough);
+
+    write_psg(ENV_REG, shape); 
+
+}
+
+void stop_sound(void) {
+    UINT8 mixer;
+    int i;
+
+    /* clear volume*/
+    for (i = CHANNEL_A; i <= CHANNEL_C; i++) {
+        set_volume(i, 0);
+    }
+
+    /* clear all noise and tone*/
+    read_psg(MIXER_REG, &mixer);
+    mixer |= DISABLE_NOISE;
+    write_psg(MIXER_REG, mixer);
+
+
+}

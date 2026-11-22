@@ -19,15 +19,19 @@ Added in the below defines to make psg.c more readable
 
 /*Max values for testing*/
 #define MAX_TONE 0x0FFF
-#define MAX_VOLUME 15
+#define MAX_VOLUME 0x10 /* max value is envelope mode*/
 #define REG_COUNT 16
 #define MAX_NOISE 0x1F /* 5 used bits all set , via the documentation on d2l*/
+#define MAX_ENV 0x0F /*4 total bits used in Register d for the enevelope shape*/
+#define DISABLE_NOISE 0x3F /* used in an OR to set all 6 used mixer bits*/
 
 /*Register constants*/
 #define VOLUME_REG 8
 #define MIXER_REG 7
 #define NOISE_REG 6
 #define ENV_REG 0xD
+#define ENV_FINE_REG 0xB
+#define ENV_RGH_REG 0xC
 
 
 
@@ -113,5 +117,5 @@ Input: None
 
 Output: None
 */
-void stop_sound();
+void stop_sound(void);
 #endif
