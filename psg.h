@@ -21,6 +21,14 @@ Added in the below defines to make psg.c more readable
 #define MAX_TONE 0x0FFF
 #define MAX_VOLUME 15
 #define REG_COUNT 16
+#define MAX_NOISE 0x1F /* 5 used bits all set , via the documentation on d2l*/
+
+/*Register constants*/
+#define VOLUME_REG 8
+#define MIXER_REG 7
+#define NOISE_REG 6
+#define ENV_REG 0xD
+
 
 
 /* ----- Function: read_psg -----

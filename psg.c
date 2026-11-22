@@ -36,3 +36,70 @@ void write_psg(UINT8 reg, UINT8 val) {
     Super(old_ssp);
     return;
 }
+
+void set_tone(UINT8 channel, UINT16 tuning) {
+    /* Validate values */
+    if (channel > CHANNEL_C || tuning > MAX_TONE) {
+        return;
+    }
+    
+    /* will take the channel #, multiplies by 2 to reach the correct tone register and sets it.
+    Two writes are used to transfer both the fine and coarse tone. A shift is used to isolate the top
+    4 bits*/
+    write_psg(channel * 2, (UINT8)(tuning & 0xFF));
+    write_psg(channel * 2 + 1, (UINT8)(tuning >> 8));
+
+}
+
+void set_volume(UINT8 channel, UINT8 volume) {
+    /* Validate values */
+    if (channel > CHANNEL_C || volume > MAX_VOLUME) {
+        return;
+    }
+    
+    /* will take the channel # and add 8 to reach the volume reigster for each channel*/
+    write_psg(channel + VOLUME_REG, volume);
+}
+
+void enable_channel(UINT8 channel, UINT8 tone_on, UINT8 noise_on) {
+    UINT8 mixer;
+    UINT8 tone;
+    UINT8 noise;
+
+    /* Validate values */
+    if (channel > CHANNEL_C || tone_on > 1 || noise_on > 1) {
+        return;
+    }
+
+    read_psg(MIXER_REG, &mixer);
+
+    /* masks to isolate tone and noise bits */
+    tone = 1 << channel;
+    noise = 1 << (channel + 3);
+
+    /* using masks, set/clear the channel's noise and tone bits*/
+    if (tone_on == 0) {
+        mixer |= tone;
+    } else {
+        mixer &= ~tone;
+    }
+
+    if (noise_on == 0) {
+        mixer |= noise;
+    } else {
+        mixer &= ~noise;
+    }
+
+    write_psg(MIXER_REG, mixer);
+}
+
+void set_noise(UINT8 tuning) {
+    /* Validate values */
+    if ( tuning > MAX_NOISE) {
+        return;
+    }
+
+    write_psg(NOISE_REG, tuning);
+}
+
+void set_envelope(UINT8 shape, UINT16 sustain)
