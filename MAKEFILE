@@ -19,7 +19,6 @@ FONT_H     	= font.h types.h
 RENDERER_H 	= renderer.h $(MODEL_H)
 BITMAPS_H  	= bitmaps.h types.h
 INPUT_H		= input.h types.h
-EVENTS_H	= cond.h asynch.h synch.h
 PSG_H		= types.h psg.h
 
 # object groups

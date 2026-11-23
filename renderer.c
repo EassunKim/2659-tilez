@@ -9,7 +9,7 @@
 #define SCREEN_WIDTH 640
 #define FONT_WIDTH 8
 #define TEXT_COL 300 /* centered */
-#define LEVEL_ROW 350
+#define LEVEL_ROW 376
 #define TITLE_ROW 16
 
 
@@ -127,13 +127,16 @@ static void redraw_tile(const Model *model, UINT8 *base, int row, int col){
     }
 }
 /*----- Function: redraw_player_changes -----
-* PURPOSE: Redraws tiles when a player/ally moves or changes direction
+* PURPOSE: Redraws tiles when a player/ally moves or changes direction, or its blocked state changes
 *          
 *
-* INPUT:   model    - Current game model
-*          current  - Current player/ally state
-*          previous - Previous player/ally state
-*          base     - Start of the game buffer to draw into
+* INPUT:   model        - Current game model
+*          current      - Current player/ally state
+*          previous     - Previous player/ally state
+*          base         - Start of the game buffer to draw into
+*          cur_blocked  - timer for how long the character is currently blocked for (20ticks -> 0)
+*          prev_blocked - the blocked counter when this buffer was last drawn. If it differs from cur_blocked 
+*                         (0 or !0), the sprite is redrawn.
 *
 *
 * OUTPUT:  Updates the screen buffer with changed tiles
@@ -217,7 +220,7 @@ void render_changes(const Model *current, const Model *previous, UINT8 *base){
                          &previous->ally, base, current->ally_blocked, previous->ally_blocked);
 }
 
-/*----- Function: render -----
+/*----- Function: render_title -----
 * PURPOSE: Draws the title "TiLEZ" to the screen and the level # as well
 *
 * INPUT:   model - the game state to draw, used for level #
@@ -237,7 +240,8 @@ static void render_title(const Model *model, UINT8 *base) {
 
 /*----- Function: render -----
 * PURPOSE: Draws one full frame of the game from the model: clears the
-*          screen, then draws the board, the player and the ally.
+*          screen, then draws the board, the player and the ally. Also,
+*          draws the game name and level #
 *
 * INPUT:   model - the game state to draw
 *          base  - start of the frame buffer to draw into
