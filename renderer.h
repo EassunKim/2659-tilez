@@ -18,6 +18,7 @@
 #include "levels.h"
 #include "model.h"
 
+
 /*----- Function: render_tile -----
  *
  * PURPOSE: Draws a tile based on its type and wall flags.

@@ -10,7 +10,7 @@ BOOL tile_check_walls(const Tile* tile, UINT8 side) {
     return (tile->walls & (1 << side)) != 0;
 }
 
- tile_add_wall(Tile* tile, UINT8 side) {
+void tile_add_wall(Tile* tile, UINT8 side) {
     tile->walls |= (1 << side);
 }
 

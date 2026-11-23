@@ -5,6 +5,13 @@
 
 #include "bitmaps.h"
 
+/* Title printing */
+#define SCREEN_WIDTH 640
+#define FONT_WIDTH 8
+#define TEXT_COL 300 /* centered */
+#define LEVEL_ROW 350
+#define TITLE_ROW 16
+
 
 void render_tile(const Tile *tile, UINT8 *base, int row, int col)
 {
@@ -200,6 +207,23 @@ void render_changes(const Model *current, const Model *previous, UINT8 *base){
                          &previous->ally, base);
 }
 
+/*----- Function: render -----
+* PURPOSE: Draws the title "TiLEZ" to the screen and the level # as well
+*
+* INPUT:   model - the game state to draw, used for level #
+*          base  - start of the frame buffer to draw into
+*
+* OUTPUT:  None
+*
+* ASSUMPTIONS: 
+*/
+static void render_title(const Model *model, UINT8 *base) {
+    char level_txt[] = "LEVEL ?";
+
+    level_txt[6] = '0' + model->level_select + 1; /* replacing the ? with the level number*/
+    plot_string(base, TITLE_ROW, TEXT_COL, "TILEZ");
+    plot_string(base, LEVEL_ROW, TEXT_COL, level_txt);
+}
 
 /*----- Function: render -----
 * PURPOSE: Draws one full frame of the game from the model: clears the
@@ -217,6 +241,7 @@ void render(const Model *model, UINT8 *base)
     clear_screen((UINT32 *)base);
 
     render_board(model->grid, base);
+    render_title(model, base);
     render_player(&model->player, base);
     render_ally(&model->ally, base);
 }
