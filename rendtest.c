@@ -209,7 +209,7 @@ else
     reset_screen();
 
     player.facing = WEST;
-    render_player(&player, base);
+    render_player(&player, base, FALSE);
 
     if (is_set(180, 270) &&
     is_set(183, 270) &&
