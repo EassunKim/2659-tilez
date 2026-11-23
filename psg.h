@@ -1,39 +1,6 @@
 #ifndef PSG
 #define PSG
-
-/* CHANGES MADE TO THIS FILE:
-Added in my own types.h for BOOL and UINT
-rewrote header for volume function to better describe the function
-Added in the below defines to make psg.c more readable
-*/
 #include "types.h"
-
-/* read/write registers */
-#define PSG_SELECT 0xFF8800
-#define PSG_WRITE 0xFF8802
-
-/* Channels*/
-#define CHANNEL_A 0
-#define CHANNEL_B 1
-#define CHANNEL_C 2
-
-/*Max values for testing*/
-#define MAX_TONE 0x0FFF
-#define MAX_VOLUME 0x10 /* max value is envelope mode*/
-#define REG_COUNT 16
-#define MAX_NOISE 0x1F /* 5 used bits all set , via the documentation on d2l*/
-#define MAX_ENV 0x0F /*4 total bits used in Register d for the enevelope shape*/
-#define DISABLE_NOISE 0x3F /* used in an OR to set all 6 used mixer bits*/
-
-/*Register constants*/
-#define VOLUME_REG 8
-#define MIXER_REG 7
-#define NOISE_REG 6
-#define ENV_REG 0xD
-#define ENV_FINE_REG 0xB
-#define ENV_RGH_REG 0xC
-
-
 
 /* ----- Function: read_psg -----
 Purpose: Attempts to read a value from the given PSG register (0-15). This is a helper
@@ -71,7 +38,8 @@ Output: None
 void set_tone(UINT8 channel, UINT16 tuning);
 
 /* ----- Function: set_volume -----
-Purpose: used to adjust the volume of the given channel to the given tuning value
+Purpose: Writes the given byte value (0-255) to the given PSG register (0-15). This is a helper
+         routine to be used by the other functions in this module.
 
 Input: Channel(UINT8) - The channel (A, B, or C) that is being written to
        Volume(UINT8) - The volume value to be written to specified channel
@@ -81,7 +49,7 @@ Output: None
 void set_volume(UINT8 channel, UINT8 volume);
 
 /* ----- Function: enable_channel -----
-Purpose: Turns the given channel's (0=A, 1=B, 2=C) tone/noise signals on/off (0=off, 1=on).
+Purpose: Turns the given channel’s (0=A, 1=B, 2=C) tone/noise signals on/off (0=off, 1=on).
 
 Input: Channel(UINT8) - The channel (A, B, or C) that is being written to
        Tone(UINT8) - Set the tone for the specified channel to be either on or off
@@ -117,5 +85,5 @@ Input: None
 
 Output: None
 */
-void stop_sound(void);
+void stop_sound();
 #endif
