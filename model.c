@@ -1,26 +1,14 @@
 #include <stddef.h>
 #include "model.h"
 
-/*----- Function: model_reset_level -----
- PURPOSE: Puts the player and ally back on their spawns. Used after a fire tile.
-
- INPUT: model - the model to reset
-
- OUTPUT: None
-*/
 void model_reset_level(Model *model) {
     model->player = model->player_spawn;
     model->ally = model->ally_spawn;
+    model->ally_blocked = 0;
+    model->player_blocked = 0;
 
 }
-/*----- Function: model_load_level -----
- PURPOSE: Loads a level into the model: grid, spawns, counters, positions.
 
- INPUT: model - the model to load into
-        select - which level to load
-
- OUTPUT: None
-*/
 void model_load_level(Model *model, UINT8 select) {
     const Level *lvl;
 
@@ -51,16 +39,6 @@ void model_load_level(Model *model, UINT8 select) {
 
 }
 
-/* ------------------ Checks ------------------------- */
-
-/*----- Function: model_tile_at -----
- PURPOSE: Returns the type of the tile at a cell.
-
- INPUT: model - the model to read
-        x, y  - the cell (may be off-grid)
-
- OUTPUT: the tile's type, or T_VOID if the cell is off the grid
-*/
 UINT8 model_tile_at(const Model *model, INT16 x, INT16 y) {
     if (x < 0 || x >= GRID_WIDTH || y < 0 || y >= GRID_HEIGHT) {
         return T_VOID;
@@ -69,23 +47,6 @@ UINT8 model_tile_at(const Model *model, INT16 x, INT16 y) {
     return model->grid[y][x].type;
 }
 
-/*----- Function: model_can_enter -----
- PURPOSE: Checks whether a character can step one cell in the direction it faces.
-
- INPUT: model - the model to read
-        character - the character trying to move
-        other - the other character (blocks the cell it stands on)
-
- OUTPUT: TRUE if the move is allowed, FALSE if blocked by:
-         - void / off-grid target
-         - a wall on the mover's tile, facing side
-         - a wall on the target tile, opposite side
-         - the other character standing on the target
-
- NOTE:  in this function, opposite is used to get the wall that would be facing the player.
-        ex. player moving north has to worry about the north of their own tile and the south wall
-        of the next tile.
-*/
 BOOL model_can_enter(const Model *model, const Player *character, const Player *other) {
     INT16 next_x;
     INT16 next_y;
@@ -95,7 +56,7 @@ BOOL model_can_enter(const Model *model, const Player *character, const Player *
     opposite = (character->facing +2) % 4;
 
     /*tile checks
-    * don't allow movement if void, wall, 
+    * don't allow movement if void or wall fall infront of a player entity.
     */
    /*check if void*/
     if (model_tile_at(model, next_x, next_y) == T_VOID)
@@ -139,18 +100,6 @@ static BOOL try_step(Model *model, Player *mover, const Player *other) {
     return TRUE;
 }
 
-/*----- Function: model_move_forward -----
- PURPOSE: Handles a forward input: player steps, then ally steps.
-
- INPUT: model - the model to update
-
- OUTPUT: player_moved - set to TRUE if the player stepped, FALSE if blocked
-         ally_moved   - set to TRUE if the ally stepped, FALSE if blocked
-
- ASSUMPTIONS: The player resolves first; the ally is checked against the
-              player's NEW position. move_count goes up only if at least
-              one character moved.
-*/
 void model_move_forward(Model *model, BOOL *player_moved, BOOL *ally_moved) {
     *player_moved = try_step(model, &model->player, &model->ally);
     *ally_moved = try_step(model, &model->ally, &model->player);
@@ -160,66 +109,25 @@ void model_move_forward(Model *model, BOOL *player_moved, BOOL *ally_moved) {
     }
 }
 
-/*----- Function: model_rotate_left -----
- PURPOSE: Rotates both characters left. Does not count as a move.
-
- INPUT: model - the model to update
-
- OUTPUT: None
-*/
 void model_rotate_left(Model *model) {
     player_rotate_left(&model->player);
     player_rotate_left(&model->ally);
 }
 
-/*----- Function: model_rotate_right -----
- PURPOSE: Rotates both characters right. Does not count as a move.
-
- INPUT: model - the model to update
-
- OUTPUT: None
-*/
 void model_rotate_right(Model *model) {
     player_rotate_right(&model->player);
     player_rotate_right(&model->ally);
 }
 
-/*----- Function: model_turn_around -----
-* PURPOSE: Turns both characters 180 degrees. Does not count as a move.
-*
-* INPUT: model - the model to update
-*
-* OUTPUT: None
-*/
 void model_turn_around(Model *model) {
     player_turn_around(&model->player);
     player_turn_around(&model->ally);
 }
 
-/*----- Function: model_slip -----
- PURPOSE: Slides a character one extra cell after landing on a slip tile.
-          Called from cond.c.
-
- INPUT: model - the model the character is in
-        who   - the character on the slip tile
-        other - the other character
-
- OUTPUT: TRUE if the character slid, FALSE if blocked (it stays on the slip tile)
-*/
 BOOL model_slip(Model *model, Player *who, const Player *other) {
     return try_step(model, who, other);
 }
 
-/*----- Function: model_tick -----
- PURPOSE: Advances the level timer by one clock tick. Every TICKS_PER_SECOND
-          ticks, adds one second.
-
- INPUT: model - the model to update
-
- OUTPUT: None
-
- ASSUMPTIONS: seconds wraps to 0 after about 18 hours on one level.
-*/
 void model_tick(Model *model) {
     model->tick_count++;
 

@@ -5,6 +5,13 @@
 
 #include "bitmaps.h"
 
+/* Title printing */
+#define SCREEN_WIDTH 640
+#define FONT_WIDTH 8
+#define TEXT_COL 300 /* centered */
+#define LEVEL_ROW 350
+#define TITLE_ROW 16
+
 
 void render_tile(const Tile *tile, UINT8 *base, int row, int col)
 {
@@ -54,24 +61,34 @@ void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
 }
 
 
-void render_player(const Player *player, UINT8 *base)
+void render_player(const Player *player, UINT8 *base, BOOL blocked)
 {
     int row, col;
+    const UINT16 *player_maps = player_bitmaps[player->facing];
 
     row = 40 + player->y * TILE_HEIGHT;
     col = 160 + player->x * TILE_WIDTH;
 
-    plot_16bit_bitmap((UINT16 *)base, row+ CHAR_OFFSET, col+ CHAR_OFFSET, player_bitmaps[player->facing], CHAR_HEIGHT);
+    if (blocked) {
+        player_maps = player_blocked_bitmaps[player->facing];
+    }
+
+    plot_16bit_bitmap((UINT16 *)base, row+ CHAR_OFFSET, col+ CHAR_OFFSET, player_maps, CHAR_HEIGHT);
 }
 
-void render_ally(const Player *player, UINT8 *base)
+void render_ally(const Player *player, UINT8 *base, BOOL blocked)
 {
     int row, col;
+    const UINT16 *ally_maps = ally_bitmaps[player->facing];
+
+    if (blocked) {
+        ally_maps = ally_blocked_bitmaps[player->facing];
+    }
 
     row = 40 + player->y * TILE_HEIGHT;
     col = 160 + player->x * TILE_WIDTH;
 
-    plot_16bit_bitmap((UINT16 *)base, row + CHAR_OFFSET, col+ CHAR_OFFSET, ally_bitmaps[player->facing], CHAR_HEIGHT);
+    plot_16bit_bitmap((UINT16 *)base, row + CHAR_OFFSET, col+ CHAR_OFFSET, ally_maps, CHAR_HEIGHT);
 }
 
 /*----- Function: redraw_tile -----
@@ -101,12 +118,12 @@ static void redraw_tile(const Model *model, UINT8 *base, int row, int col){
     /*Redraw player/ally if they are present*/
     if (model->player.x == col && model->player.y == row)
     {
-        render_player(&model->player, base);
+        render_player(&model->player, base, model->player_blocked);
     }
 
     if (model->ally.x == col && model->ally.y == row)
     {
-        render_ally(&model->ally, base);
+        render_ally(&model->ally, base, model->ally_blocked);
     }
 }
 /*----- Function: redraw_player_changes -----
@@ -123,10 +140,10 @@ static void redraw_tile(const Model *model, UINT8 *base, int row, int col){
 *
 */
 static void redraw_player_changes(const Model *model, const Player *current, 
-                                const Player *previous, UINT8 *base) {
+const Player *previous, UINT8 *base, UINT8 cur_blocked, UINT8 prev_blocked) {
     /*Player movement/direction change check*/
     if (current->x != previous->x || current->y != previous->y ||
-            current->facing != previous->facing)
+            current->facing != previous->facing || (cur_blocked != 0) != (prev_blocked != 0))
     {
         /*restore previous tile, remove sprite*/
         redraw_tile(model, base, previous->y, previous->x);
@@ -194,12 +211,29 @@ void render_changes(const Model *current, const Model *previous, UINT8 *base){
     redraw_board_changes(current, previous, base);
 
     redraw_player_changes(current, &current->player,
-                         &previous->player, base);
+                         &previous->player, base, current->player_blocked, previous->player_blocked);
 
     redraw_player_changes(current, &current->ally,
-                         &previous->ally, base);
+                         &previous->ally, base, current->ally_blocked, previous->ally_blocked);
 }
 
+/*----- Function: render -----
+* PURPOSE: Draws the title "TiLEZ" to the screen and the level # as well
+*
+* INPUT:   model - the game state to draw, used for level #
+*          base  - start of the frame buffer to draw into
+*
+* OUTPUT:  None
+*
+* ASSUMPTIONS: 
+*/
+static void render_title(const Model *model, UINT8 *base) {
+    char level_txt[] = "LEVEL ?";
+
+    level_txt[6] = '0' + model->level_select + 1; /* replacing the ? with the level number*/
+    plot_string(base, TITLE_ROW, TEXT_COL, "TILEZ");
+    plot_string(base, LEVEL_ROW, TEXT_COL, level_txt);
+}
 
 /*----- Function: render -----
 * PURPOSE: Draws one full frame of the game from the model: clears the
@@ -217,6 +251,7 @@ void render(const Model *model, UINT8 *base)
     clear_screen((UINT32 *)base);
 
     render_board(model->grid, base);
-    render_player(&model->player, base);
-    render_ally(&model->ally, base);
+    render_title(model, base);
+    render_player(&model->player, base, model->player_blocked);
+    render_ally(&model->ally, base, model->ally_blocked);
 }
