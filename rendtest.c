@@ -153,7 +153,7 @@ int main(void)
     reset_screen();
 
     player.facing = NORTH;
-    render_player(&player, base);
+    render_player(&player, base, FALSE);
 
     if (is_set(180, 270) &&
         is_set(183, 270) &&
@@ -172,7 +172,7 @@ reset_screen();
 
 player.facing = EAST;
 
-render_player(&player, base);
+render_player(&player, base, FALSE);
 
 if (is_set(180, 270) &&
     !is_set(183, 270) &&
@@ -190,7 +190,7 @@ else
     reset_screen();
 
     player.facing = SOUTH;
-    render_player(&player, base);
+    render_player(&player, base, FALSE);
 
     if (is_set(180, 270) &&
     is_set(183, 270) &&

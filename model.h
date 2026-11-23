@@ -9,6 +9,13 @@
 
 #define TICKS_PER_SECOND 70
 
+/*used to offset player an ally movement. We want the ally to "block" the player but when both movements are
+done at the same time it looks off for only the ally to move (for example, when right next to eachother, if a
+right input is put in only the ally will move). This is because the player moves, and the ally copies
+This constant is a timer that will decrement to display a blocked
+sprite when this occurs*/
+#define BLOCKED_TICKS 20
+
 /* Constants for input request values */
 #define REQ_NONE 0
 #define REQ_FORWARD 1
@@ -32,12 +39,13 @@ typedef struct {
     UINT8 input;
     BOOL player_moved;
     BOOL ally_moved;
-
+    UINT8 ally_blocked;
+    UINT8 player_blocked;
 } Model;
 
 
 /*----- Function: model_reset_level -----
- PURPOSE: Puts the player and ally back on their spawns. Used after a fire tile.
+ PURPOSE: Puts the player and ally back on their spawns. Used after a fire tile. Also clears any buffer timers.
 
  INPUT: model - the model to reset
 

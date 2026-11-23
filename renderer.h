@@ -71,26 +71,28 @@ void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
  *
  * INPUT: player - pointer to the player to draw.
  *        base - pointer to the screen buffer.
+ *        blocked - a bool that determines whether to use the blocked sprites
  *
  * OUTPUT: None.
  *
  * ASSUMPTIONS: Player position and direction are valid.
  */
-void render_player(const Player *player, UINT8 *base);
+void render_player(const Player *player, UINT8 *base, BOOL blocked);
 
-/*----- Function: render_player -----
+/*----- Function: render_ally -----
  *
  * PURPOSE: Draws the ally bitmap based on its position
  *          and facing direction.
  *
  * INPUT: player - pointer to the player to draw.
  *        base - pointer to the screen buffer.
+ *        blocked - a bool that determines whether to use the blocked sprites
  *
  * OUTPUT: None.
  *
  * ASSUMPTIONS: Player position and direction are valid.
  */
-void render_ally(const Player *player, UINT8 *base);
+void render_ally(const Player *player, UINT8 *base, BOOL blocked);
 
 
 void render(const Model *model, UINT8 *base);

@@ -4,6 +4,8 @@
 void model_reset_level(Model *model) {
     model->player = model->player_spawn;
     model->ally = model->ally_spawn;
+    model->ally_blocked = 0;
+    model->player_blocked = 0;
 
 }
 
