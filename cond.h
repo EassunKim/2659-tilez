@@ -3,7 +3,6 @@
 
 #include "model.h"
 
-/* Declarations */
 /*----- Function: cond_after_move -----
  PURPOSE: Applies all tile effects after a forward move, in order:
           slips, then fire, then goal.

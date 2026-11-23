@@ -30,9 +30,26 @@ typedef struct {
     Player ally_spawn;
 } Level;
 
-/*declarations*/
+/*----- Function: level_get -----
+* PURPOSE: retrieves a level from the list at a given index
+*
+* INPUT: index - the level to retrieve
+*
+* OUTPUT: A level pointer, as specified above
+*/
 const Level *level_get(UINT8 index);
-void level_build_grid(const Level *level, Tile grid[GRID_HEIGHT][GRID_WIDTH]);
+
+/*LEVEL BUILDING*/
+
+/*----- Function: level_build_grid-----
+ PURPOSE: translates our grid into the tile types for level making
+
+ INPUT: lvl - a level array to build
+        grid - a 2d array of Tile objects (see tile.h) to initialize
+
+ OUTPUT: None
+*/
+void level_build_grid(const Level *lvl, Tile grid[GRID_HEIGHT][GRID_WIDTH]);
 
 
 

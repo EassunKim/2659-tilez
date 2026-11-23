@@ -19,5 +19,5 @@ extern const UINT16 player_bitmaps[4][CHAR_HEIGHT]; /* index matches directions 
 extern const UINT16 ally_bitmaps[4][CHAR_HEIGHT];   /* same as above, but sprites for the ally */
 
 extern const UINT32 wall_horizontal[WALL_ATSU];     /*extra layers to the horizontal walls*/
-extern const UINT32 wall_vertical[WALL_LENGTH];   /* 36 rows of 0xF0000000UL to thicken the horizontal walls */
+extern const UINT32 wall_vertical[WALL_LENGTH];   
 #endif

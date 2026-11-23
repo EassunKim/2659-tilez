@@ -27,17 +27,15 @@ static const Level levels[LEVELS] = {
     }
 };
 
-/* functions*/
 /*----- Function: char_to_tile_type -----
-v
- PURPOSE: translates our grid into the tile types for level making
-
- INPUT: c - c character that will be translated into a tile
-
- OUTPUT: an integer that corresponds to the tile type, see TILES in tiles.h
-
- NOTE:  will return void if a char is not in the legend, but a blank space is what is used as a void in the 
-        actual level setup, (see levels above)
+* PURPOSE: translates our grid into the tile types for level making
+*
+* INPUT: c - c character that will be translated into a tile
+*
+* OUTPUT: an integer that corresponds to the tile type, see TILES in tiles.h
+*
+* NOTE:  will return void if a char is not in the legend, but a blank space is what is used as a void in the
+*        actual level setup, (see levels above)
 */
 static UINT8 char_to_tile_type(char c){
     switch (c)
@@ -58,8 +56,6 @@ const Level *level_get(UINT8 i) {
     }
     return NULL;
 }
-
-/*level building*/
 
 /*----- Function: build_row-----
  PURPOSE:   A helper function for level_build_grid. Given a row of the level layout string, fills in one
@@ -92,7 +88,7 @@ static void build_row(const char *row, Tile row_tiles[GRID_WIDTH]) {
 }
 
 /*----- Function: apply_walls -----
- PURPOSE:   Helper function for A helper function for level_build_grid. Applys the needed walls for 
+ PURPOSE:   Helper function for A helper function for level_build_grid. Applys the needed walls for
             a level
  INPUT:     level - the level used to build the row
             grid - the grid to add walls to
@@ -109,14 +105,6 @@ static void apply_walls(const Level *level, Tile grid[GRID_HEIGHT][GRID_WIDTH]) 
     }
 }
 
-/*----- Function: level_build_grid-----
- PURPOSE: translates our grid into the tile types for level making
-
- INPUT: lvl - a level array to build
-        grid - a 2d array of Tile objects (see tile.h) to initialize
-
- OUTPUT: None
-*/
 void level_build_grid(const Level *lvl, Tile grid[GRID_HEIGHT][GRID_WIDTH]) {
     UINT8 y;
 

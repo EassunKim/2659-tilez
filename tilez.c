@@ -83,7 +83,7 @@ static void init_buffers(ScreenBuffers *buffers, const Model *model){
 *
 * OUTPUT: The current time value
 */
-UINT32 get_time(void) {
+static UINT32 get_time(void) {
     long* timer_add = (long *)0x462;
     long old_sp = Super(0);
     long time_val = *(long *)timer_add;
@@ -149,12 +149,12 @@ static void restore_screen(ScreenBuffers *buffers){
 
 
 /*----- Function: use_input -----
-* PURPOSE: take an input during the main game loop and applies it to the 
+* PURPOSE: take an input from the user and updates it based on that for movement
 *
 * INPUT: model - the model to update
          input - a character input from the user to apply
 *
-* OUTPUT: BOOL - TRUE if the input was applied, FALSE if it was not a valid input. 
+* OUTPUT: BOOL - TRUE if the input was applied, FALSE otherwise
 */
 static BOOL use_input(Model *model, char input) {
     switch (input) {

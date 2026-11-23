@@ -81,7 +81,7 @@ Output: None
 void set_volume(UINT8 channel, UINT8 volume);
 
 /* ----- Function: enable_channel -----
-Purpose: Turns the given channel’s (0=A, 1=B, 2=C) tone/noise signals on/off (0=off, 1=on).
+Purpose: Turns the given channel's (0=A, 1=B, 2=C) tone/noise signals on/off (0=off, 1=on).
 
 Input: Channel(UINT8) - The channel (A, B, or C) that is being written to
        Tone(UINT8) - Set the tone for the specified channel to be either on or off

@@ -30,9 +30,38 @@ typedef struct {
     UINT8 walls; /* a bitmask of flags that denote what walls are around a tile\*/
 } Tile;
 
-/*Declaroins*/
+/*----- Function: tile_add_wall -----
+*
+* PURPOSE:  add a wall on a certain side of a tile
+*
+* INPUT:    side - a direction (0-3)
+*           tile  - a target Tile object
+*
+* OUTPUT:   None
+*/
 void tile_add_wall(Tile* tile, UINT8 side);
+
+/*----- Function: check_wall -----
+*
+* PURPOSE:  Checks the walls for a given tile.
+*
+* INPUT:    tile  - a tile object
+*           side  - the side to check
+*
+* OUTPUT:   None
+*/
 BOOL tile_check_walls(const Tile* tile, UINT8 side);
+
+/*----- Function: tile_init -----
+*
+* PURPOSE:  initializes a tile struct with type and wall value
+*
+* INPUT:    tile  - a tile object
+*           type  - the tile type (values in tile.h)
+*           walls - a UINT8 describing which walls are on a tile (see tile.h as well)
+*
+* OUTPUT:   None
+*/
 void tile_init(Tile* tile, UINT8 type, UINT8 walls);
 
 #endif
