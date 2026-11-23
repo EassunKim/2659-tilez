@@ -31,7 +31,7 @@ int main(void)
     tile.type = T_NORMAL;
     tile.walls = 0;
 
-    render_tile(&tile, base, 40, 160);
+    render_tile(&tile, base, 40, 160, 0);
 
     if (is_set(40, 160) && is_set(40, 191) &&
         is_set(71, 160) && is_set(71, 191))
@@ -49,7 +49,7 @@ int main(void)
     tile.type = T_FIRE;
     tile.walls = 0;
 
-    render_tile(&tile, base, 40, 160);
+    render_tile(&tile, base, 40, 160,0);
 
     if (is_set(48, 170))
     {
@@ -66,7 +66,7 @@ int main(void)
     tile.type = T_GOAL;
     tile.walls = 0;
 
-    render_tile(&tile, base, 40, 160);
+    render_tile(&tile, base, 40, 160,0);
 
     if (is_set(48, 168) && is_set(48, 183) &&
         is_set(63, 168) && is_set(63, 183))
@@ -84,7 +84,7 @@ int main(void)
     tile.type = T_SLIP;
     tile.walls = 0;
 
-    render_tile(&tile, base, 40, 160);
+    render_tile(&tile, base, 40, 160,0);
 
     if (is_set(48, 168) &&
         is_set(56, 176) &&
@@ -129,7 +129,7 @@ int main(void)
         }
     }
 
-    render_board(board, base);
+    render_board(board, base,0);
 
     if (is_set(40, 160) &&
         is_set(40, 479) &&
@@ -153,7 +153,7 @@ int main(void)
     reset_screen();
 
     player.facing = NORTH;
-    render_player(&player, base, FALSE);
+    render_player(&player, base, FALSE,0);
 
     if (is_set(180, 270) &&
         is_set(183, 270) &&
@@ -172,7 +172,7 @@ reset_screen();
 
 player.facing = EAST;
 
-render_player(&player, base, FALSE);
+render_player(&player, base, FALSE,0);
 
 if (is_set(180, 270) &&
     !is_set(183, 270) &&
@@ -190,7 +190,7 @@ else
     reset_screen();
 
     player.facing = SOUTH;
-    render_player(&player, base, FALSE);
+    render_player(&player, base, FALSE,0);
 
     if (is_set(180, 270) &&
     is_set(183, 270) &&
@@ -209,7 +209,7 @@ else
     reset_screen();
 
     player.facing = WEST;
-    render_player(&player, base, FALSE);
+    render_player(&player, base, FALSE,0);
 
     if (is_set(180, 270) &&
     is_set(183, 270) &&

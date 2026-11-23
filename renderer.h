@@ -27,12 +27,13 @@
  *        base - pointer to the screen buffer.
  *        row - top screen row of the tile.
  *        col - left screen column of the tile.
+ *        anim_state - the state to animate, alt sprite or original
  *
  * OUTPUT: None.
  *
  * ASSUMPTIONS: The tile is within the screen boundaries.
  */
-void render_tile(const Tile *tile, UINT8 *base, int row, int col);
+void render_tile(const Tile *tile, UINT8 *base, int row, int col, UINT8 anim_state);
 
 /*----- Function: render_walls -----
  *
@@ -55,6 +56,7 @@ void render_walls(const Tile *tile, UINT8 *base, int row, int col);
  *
  * INPUT: board - two-dimensional array of tiles.
  *        base - pointer to the screen buffer.
+ *        anim_state - the state to animate, alt sprite or original
  *
  * OUTPUT: None.
  *
@@ -62,7 +64,7 @@ void render_walls(const Tile *tile, UINT8 *base, int row, int col);
  *              and GRID_WIDTH.
  */
 void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
-                  UINT8 *base);
+                  UINT8 *base, UINT8 anim_state);
 
 /*----- Function: render_player -----
  *
@@ -72,12 +74,13 @@ void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
  * INPUT: player - pointer to the player to draw.
  *        base - pointer to the screen buffer.
  *        blocked - a bool that determines whether to use the blocked sprites
+ *        anim_state - the state to animate, alt sprite or original
  *
  * OUTPUT: None.
  *
  * ASSUMPTIONS: Player position and direction are valid.
  */
-void render_player(const Player *player, UINT8 *base, BOOL blocked);
+void render_player(const Player *player, UINT8 *base, BOOL blocked, UINT8 anim_state);
 
 /*----- Function: render_ally -----
  *
@@ -87,12 +90,13 @@ void render_player(const Player *player, UINT8 *base, BOOL blocked);
  * INPUT: player - pointer to the player to draw.
  *        base - pointer to the screen buffer.
  *        blocked - a bool that determines whether to use the blocked sprites
- *
+ *        anim_state - the state to animate, alt sprite or original
+ *        
  * OUTPUT: None.
  *
  * ASSUMPTIONS: Player position and direction are valid.
  */
-void render_ally(const Player *player, UINT8 *base, BOOL blocked);
+void render_ally(const Player *player, UINT8 *base, BOOL blocked, UINT8 anim_state);
 
 
 void render(const Model *model, UINT8 *base);
