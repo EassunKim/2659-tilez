@@ -31,9 +31,10 @@ tst_music.tos
 
 The sound effect files. For the submission of this checkpoint we chose to include one sound effect for coming in contact with a fire tile and one for the player moving.
 
-#### `tilez.c` additions - written by Matthew Kim
+#### `tilez.c`, `cond.c`, `asynch.c` additions - written by Matthew Kim
 
-Added the main song loop into the main game loop in tilez.c and added the sound effects to their respective events.
+- Added the main song loop into the main game loop in tilez.c and added the sound effects to their respective events.
+- Added play_fire and play_move to their respective events. Functioning in the main game.
 
 ### Other Fixes and notes
 
