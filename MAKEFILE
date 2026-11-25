@@ -6,6 +6,7 @@
 #   make tst_rend.tos  builds the renderer test driver (draws on screen)
 #	make tilez.tos	   builds the main game
 # 	make tst_psg.tos   builds the tester for our psg file
+#	make tst_mus.tos builds the tester for our music loop
 #   make all           builds all above
 
 # header groups (each includes the ones it depends on)
@@ -20,6 +21,7 @@ RENDERER_H 	= renderer.h $(MODEL_H)
 BITMAPS_H  	= bitmaps.h types.h
 INPUT_H		= input.h types.h
 PSG_H		= types.h psg.h
+MUSIC_H		= music.h types.h 
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
@@ -43,8 +45,10 @@ tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
 tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o
 	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o -o tilez.tos
 
+tst_mus.tos: tst_mus.o music.o psg.o
+	cc68x -g tst_mus.o music.o psg.o -o tst_mus.tos
 
-all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos
+all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos tst_mus.tos
 
 # ---------- model ----------
 
@@ -101,8 +105,10 @@ tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H)
 psg.o: psg.c $(PSG_H)
 	cc68x -g -c psg.c
 
-# ---------- tests ----------
+music.o: music.c $(MUSIC_H) $(PSG_H)
+	cc68x -g -c music.c
 
+# ---------- tests ----------
 tst_modl.o: tst_modl.c $(EVENTS_H)
 	cc68x -g -c tst_modl.c
 
@@ -117,3 +123,6 @@ rendtest.o: rendtest.c $(RENDERER_H)
 
 tst_psg.o: tst_psg.c $(PSG_H)
 	cc68x -g -c tst_psg.c
+
+tst_mus.o: tst_mus.c $(MUSIC_H) $(PSG_H)
+	cc68x -g -c tst_mus.c

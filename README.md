@@ -6,10 +6,39 @@
 - Mohamad Hamade (Withdrew from course after work on checkpoint 2)
 - Ujjwal Bhandari
 
-## Checkpoint 3 - November 10
-Our game is now in a playable state. The WASD commands work to move the character and the screen is updated on tick as intended. At this point we have 'level 0' in the game as a way of testing out every tile type and movement. Proper puzzle levels will be added as we go through and the main game loop already loops through the levels, though there is only one at the moment. 
+## Checkpoint 4 - November 25 (use of class allotted 2 day extension)
 
-### Usage 
+### Files Completed
+
+#### `psg.h` / `psg.c` — written by Ujjwal
+
+A functioning psg module used in both the game's main theme loop and in its sound effects.
+
+#### `music.c` / `music.h` — written by Matthew
+
+The two files as specified by the checkpoint 4 pdf. They utilize the psg functions to implement `start_music` and `update_music`.
+
+#### `tst_mus.c` — written by Matthew
+
+A lightweight tester that simply plays our song. Can be used by running these two commands in `gu`:
+
+```sh
+make tst_mus.tos
+tst_music.tos
+```
+
+### Other Fixes
+
+- Added in short animation loops for our sprites. Using the clock, the event tiles and player/ally update every half second or every 35/70 ticks.
+- Added in printing to the main game screen. The game title and the current level are now printed above and below the level grid respectively.
+- Changed the sprite for the slip tile. The old one was a right facing arrow that was causing confusion when encountered any way that wasn't from the right. Replaced with my best effort at an "icy tile".
+
+## Checkpoint 3 - November 10
+
+Our game is now in a playable state. The WASD commands work to move the character and the screen is updated on tick as intended. At this point we have 'level 0' in the game as a way of testing out every tile type and movement. Proper puzzle levels will be added as we go through and the main game loop already loops through the levels, though there is only one at the moment.
+
+### Usage
+
 ```asm
 make all
 tilez.c
@@ -17,17 +46,19 @@ tilez.c
 
 ### Ujjwal Bhandari (Renderer.c/h, tilez.c/h)
 
-| File                        | Description                                                                                             |
-| --- | --- |
-| `Renderer.c  / renderer.h`  | The renderer was implemented without Minimized Screen Plotting in CP2, it is implemented now. Using checks to confirm change, and previously designed raster functions to prevent redrawing the entire board. |
-| `Tilez.c /  Tilez.h`        | Implemented double buffering within Tilez.c, where screen buffers are alternated. Which reduces flickering and improves rendering speed.|
+| File                       | Description                                                                                                                                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Renderer.c  / renderer.h` | The renderer was implemented without Minimized Screen Plotting in CP2, it is implemented now. Using checks to confirm change, and previously designed raster functions to prevent redrawing the entire board. |
+| `Tilez.c /  Tilez.h`       | Implemented double buffering within Tilez.c, where screen buffers are alternated. Which reduces flickering and improves rendering speed.                                                                      |
 
 ### Matthew Kim (Tilez.c, input.c/h)
-| File                        | Description                                                                                             |
+
+| File | Description |
+
 | --------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `Tiles.c`                | Implemented the main game loop, as well as timing functions to make input module work|
-| `input.c/h`                  | Created the input module. Will take in an input, save it to the model and update the screen based on it on the next tick |
-| Other Fixes | Changed renderer to use new bitmaps in bitmaps.c to replace placeholders from checkpoint2  |
+| `Tiles.c` | Implemented the main game loop, as well as timing functions to make input module work|
+| `input.c/h` | Created the input module. Will take in an input, save it to the model and update the screen based on it on the next tick |
+| Other Fixes | Changed renderer to use new bitmaps in bitmaps.c to replace placeholders from checkpoint2 |
 
 ## Checkpoint 2 - October 19
 
