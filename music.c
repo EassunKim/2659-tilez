@@ -2,7 +2,7 @@
 #include "psg.h"
 
 #define CHANNEL 0 /* Our song takes channel A, as specified */
-#define VOLUME 10
+#define VOLUME 6
 
 /* on/off for the registers */
 #define ON 1 
