@@ -22,6 +22,7 @@ BITMAPS_H  	= bitmaps.h types.h
 INPUT_H		= input.h types.h
 PSG_H		= types.h psg.h
 MUSIC_H		= music.h types.h 
+EFFECTS_H	= effects.h types.h
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
@@ -30,8 +31,8 @@ RENDER_OBJS = renderer.o bitmaps.o
 
 # ---------- programs ----------
 
-tst_modl.tos: tst_modl.o $(MODEL_OBJS)
-	cc68x -g tst_modl.o $(MODEL_OBJS) -o tst_modl.tos
+tst_modl.tos: tst_modl.o effects.o psg.o $(MODEL_OBJS)
+	cc68x -g tst_modl.o $(MODEL_OBJS) effects.o psg.o -o tst_modl.tos
 
 tst_rast.tos: TEST.o $(RASTER_OBJS)
 	cc68x -g TEST.o $(RASTER_OBJS) -o tst_rast.tos
@@ -39,11 +40,11 @@ tst_rast.tos: TEST.o $(RASTER_OBJS)
 rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
 	cc68x -g rendtest.o $(RENDER_OBJS) $(RASTER_OBJS) -o rendtest.tos
 
-tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
-	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
+tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o
+	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o -o tst_rend.tos
 
-tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o
-	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o -o tilez.tos
+tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o effects.o psg.o
+	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o input.o -o tilez.tos
 
 tst_mus.tos: tst_mus.o music.o psg.o
 	cc68x -g tst_mus.o music.o psg.o -o tst_mus.tos
@@ -66,13 +67,13 @@ model.o: model.c $(MODEL_H)
 
 # ---------- events ----------
 
-asynch.o: asynch.c asynch.h $(MODEL_H)
+asynch.o: asynch.c asynch.h $(MODEL_H) $(EFFECTS_H)
 	cc68x -g -c asynch.c
 
 synch.o: synch.c synch.h $(MODEL_H)
 	cc68x -g -c synch.c
 
-cond.o: cond.c cond.h $(MODEL_H)
+cond.o: cond.c cond.h $(MODEL_H) $(EFFECTS_H)
 	cc68x -g -c cond.c
 
 # ---------- raster ----------
@@ -107,6 +108,9 @@ psg.o: psg.c $(PSG_H)
 
 music.o: music.c $(MUSIC_H) $(PSG_H)
 	cc68x -g -c music.c
+
+effects.o: effects.c $(PSG_H) $(EFFECTS_H)
+	cc68x -g -c effects.c
 
 # ---------- tests ----------
 tst_modl.o: tst_modl.c $(EVENTS_H)

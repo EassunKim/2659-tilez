@@ -1,5 +1,5 @@
-#ifndef PSG
-#define PSG
+#ifndef PSG_H
+#define PSG_H
 #include "types.h"
 
 /* ----- Function: read_psg -----

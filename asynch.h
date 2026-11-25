@@ -5,6 +5,7 @@
 
 /*----- Function: asynch_forward -----
 * PURPOSE: Handles the forward key (W). Requests the player and ally to step forward.
+           As of Checkpoint 4, plays a sound on move.
 *
 * INPUT: model - the model to update
 * 

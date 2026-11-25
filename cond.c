@@ -1,4 +1,5 @@
 #include "cond.h"
+#include "effects.h"
 
 /*----- Function: apply_slip -----
  PURPOSE: Slides a character one extra cell if it stepped onto a slip tile.
@@ -27,6 +28,7 @@ static void apply_slip(Model *model, Player *who, const Player *other, BOOL move
 static BOOL check_fire(Model *model) {
     if (model_tile_at(model, model->player.x, model->player.y) == T_FIRE ||
         model_tile_at(model, model->ally.x, model->ally.y) == T_FIRE) {
+        play_fire();
         model_reset_level(model);
         return TRUE;
     }

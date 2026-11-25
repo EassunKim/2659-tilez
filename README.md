@@ -27,11 +27,26 @@ make tst_mus.tos
 tst_music.tos
 ```
 
-### Other Fixes
+#### `effects.h` / `effects.c` - written by Matthew
+
+The sound effect files. For the submission of this checkpoint we chose to include one sound effect for coming in contact with a fire tile and one for the player moving.
+
+#### `tilez.c` additions - written by Matthew Kim
+
+Added the main song loop into the main game loop in tilez.c and added the sound effects to their respective events.
+
+### Other Fixes and notes
+
+#### Fixes
 
 - Added in short animation loops for our sprites. Using the clock, the event tiles and player/ally update every half second or every 35/70 ticks.
 - Added in printing to the main game screen. The game title and the current level are now printed above and below the level grid respectively.
 - Changed the sprite for the slip tile. The old one was a right facing arrow that was causing confusion when encountered any way that wasn't from the right. Replaced with my best effort at an "icy tile".
+
+#### Notes
+
+- The current main theme is a place holder
+- There is currently only one level but the system is in place to add more.
 
 ## Checkpoint 3 - November 10
 
