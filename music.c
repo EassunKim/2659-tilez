@@ -64,5 +64,7 @@ void update_music(UINT32 ticks) {
             cur_note = 0;
         }
         set_tone(CHANNEL, main_theme[cur_note].tuning);
+        enable_channel(CHANNEL, ON, OFF);    
+        set_volume(CHANNEL, VOLUME);
     }
 }

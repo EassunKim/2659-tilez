@@ -43,8 +43,8 @@ rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
 tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o
 	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o -o tst_rend.tos
 
-tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o effects.o psg.o
-	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o input.o -o tilez.tos
+tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o effects.o psg.o music.o
+	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o input.o music.o -o tilez.tos
 
 tst_mus.tos: tst_mus.o music.o psg.o
 	cc68x -g tst_mus.o music.o psg.o -o tst_mus.tos
@@ -99,7 +99,7 @@ input.o: input.c $(INPUT_H)
 	cc68x -g -c input.c
 
 # ---------- main game ----------	
-tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H)
+tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H) $(MUSIC_H) $(PSG_H)
 	cc68x -g -c tilez.c
 
 #----------- sound --------------

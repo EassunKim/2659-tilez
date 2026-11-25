@@ -16,6 +16,8 @@
 #include "model.h"
 #include "renderer.h"
 #include "events.h"
+#include "music.h"
+#include "psg.h"
 
 /*Screen buffer size amd memory alignment*/
 #define SCREEN_SIZE 32000
@@ -192,6 +194,8 @@ int main(void) {
     
     model_load_level(&model,0);
     init_buffers(&buffers, &model);
+
+    start_music();
     
     time1 = get_time();
     while (quit == FALSE) {
@@ -207,9 +211,12 @@ int main(void) {
             render_changes(&model, buffers.back_snapshot, buffers.back); /*render changes to back buffer*/
             *buffers.back_snapshot = model; /*Save model states and flip buffers*/
             flip_buffers(&buffers);
+
+            update_music(time2 - time1);
             time1 = time2;
         }
     }
+    stop_sound();
     restore_screen(&buffers); /*restore original screen before exit*/
     return 0;
 }
