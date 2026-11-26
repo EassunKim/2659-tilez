@@ -18,7 +18,7 @@ static void draw_menu(UINT8 *base, UINT8 select) {
 
     /*Draw base screen*/
     for (i = 0; i < SPLASH_LEN; i++) {
-        (UINT32 *)base[i] = splash_image[i];
+        ((UINT32 *)base)[i] = splash_image[i];
     } 
 
     if (select == SPLASH_PLAY) { 

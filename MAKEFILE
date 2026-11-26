@@ -6,7 +6,8 @@
 #   make tst_rend.tos  builds the renderer test driver (draws on screen)
 #	make tilez.tos	   builds the main game
 # 	make tst_psg.tos   builds the tester for our psg file
-#	make tst_mus.tos builds the tester for our music loop
+#	make tst_mus.tos   builds the tester for our music loop
+# 	make tst_psg.tos   builds the psg tester
 #   make all           builds all above
 
 # header groups (each includes the ones it depends on)
@@ -51,7 +52,10 @@ tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o effects.o
 tst_mus.tos: tst_mus.o music.o psg.o 
 	cc68x -g tst_mus.o music.o psg.o -o tst_mus.tos
 
-all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos tst_mus.tos
+tst_psg.tos: tst_psg.o psg.o
+	cc68x -g tst_psg.o psg.o -o tst_psg.tos
+
+all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos tst_mus.tos tst_psg.tos
 
 # ---------- model ----------
 
