@@ -48,6 +48,7 @@ The sound effect files. For the submission of this checkpoint we chose to includ
 
 - The current main theme is a place holder
 - There is currently only one level but the system is in place to add more.
+- music.c works by taking over channel A of the psg and playing notes for set duration. The key click sound on Steem was interfering with this. For this checkpoint we chose, after confirming with our professor, that disabling the sound tick all together was the simplest solution.
 
 ## Checkpoint 3 - November 10
 

@@ -18,6 +18,8 @@
 #include "events.h"
 #include "music.h"
 #include "psg.h"
+#include "splash.h"
+#include "splashbg.h"
 
 /*Screen buffer size amd memory alignment*/
 #define SCREEN_SIZE 32000
@@ -178,15 +180,14 @@ static BOOL use_input(Model *model, char input) {
     return FALSE;
 }
 
-
-/*----- Function: main -----
+/*----- Function: play -----
 * PURPOSE: the main game loop for tilez
 *
 * INPUT: None
 *
 * OUTPUT: returns 0 after the loop
 */
-int main(void) {
+static int play(void) {
     static Model model;
     static ScreenBuffers buffers;
     BOOL quit = FALSE; /* will close the game */
@@ -218,5 +219,22 @@ int main(void) {
     }
     stop_sound();
     restore_screen(&buffers); /*restore original screen before exit*/
+    return 0;
+}
+
+
+/*----- Function: main -----
+* PURPOSE: the main tilez function. Will call the splash screen in then play the game if the
+           user inputs to.
+*
+* INPUT: None
+*
+* OUTPUT: returns 0 after the loop, upon game completion or splash screen quit
+*/
+int main(void) {
+    UINT8 select = splash_screen((UINT8 *)Physbase());
+    if (select == SPLASH_PLAY) {
+        play();
+    } 
     return 0;
 }

@@ -1,7 +1,7 @@
 #include "music.h"
 #include "psg.h"
 
-#define CHANNEL 0 /* Our song takes channel A, as specified */
+#define CHANNEL 1 /* Our song takes channel A, as specified */
 #define VOLUME 6
 
 /* on/off for the registers */
@@ -64,7 +64,5 @@ void update_music(UINT32 ticks) {
             cur_note = 0;
         }
         set_tone(CHANNEL, main_theme[cur_note].tuning);
-        enable_channel(CHANNEL, ON, OFF);    
-        set_volume(CHANNEL, VOLUME);
     }
 }
