@@ -1,3 +1,16 @@
+/*------------------------------------------------------------
+ * File: psg.h
+ *
+ * PURPOSE: Implements a low level PSG library for controlling
+ *          the YM2149 softfare controlled sound generator.
+ *          Provides functions for accessing PSG registers
+ *          and the ability to change tone, volume, noise and
+ *          envelope settings for further control generating
+ *          sound effects and music.
+ *
+ * Team Members: Ujjwal, Matthew
+ * Author: Ujjwal
+ *------------------------------------------------------------*/
 #ifndef PSG
 #define PSG
 #include "types.h"
