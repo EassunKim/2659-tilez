@@ -1,3 +1,17 @@
+/*------------------------------------------------------------
+* File: asynch.g
+*
+* PURPOSE: Declares the functinos for the asynchronous game events that will
+*           run on player input. Saving it to the model as outlined in checkpoint 3
+*
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
+
 #ifndef ASYNCH_H
 #define ASYNCH_H
 

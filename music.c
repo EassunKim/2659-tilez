@@ -1,3 +1,17 @@
+/*------------------------------------------------------------
+* File: music.c
+*
+* PURPOSE: Plays the looping main theme and stores that main theme
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
+
+
+
 #include "music.h"
 #include "psg.h"
 

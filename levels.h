@@ -1,3 +1,17 @@
+/*------------------------------------------------------------
+* File: levels.h
+*
+* PURPOSE: Defines the level input that we will use to layout all game levels. 
+           Declares the functions to build a level and build its layout
+*
+* NOTES:   
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: 
+*------------------------------------------------------------*/
+
+
 #ifndef LEVELS_H
 #define LEVELS_H
 

@@ -1,3 +1,16 @@
+/*------------------------------------------------------------
+* File: model.h
+*
+* PURPOSE: Defines the Model, the complete game state (grid, player, ally,
+*          level, and per-tick flags), and declares the functions that
+*          move the characters and apply the game rules to it.
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #ifndef MODEL_H
 #define MODEL_H
 

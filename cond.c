@@ -1,3 +1,16 @@
+/*------------------------------------------------------------
+* File: cond.c
+*
+* PURPOSE: Implements the rule checks for each tile.
+*
+* NOTES: Added fire sfx as of checkpoint 4
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #include "cond.h"
 #include "effects.h"
 

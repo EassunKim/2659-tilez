@@ -1,3 +1,15 @@
+/*------------------------------------------------------------
+* File: synch.h
+*
+* PURPOSE: Declares the synchronous event handlers, run once per clock
+*          tick: carrying out the pending move request and advancing timers.
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #ifndef SYNCH_H
 #define SYNCH_H
 

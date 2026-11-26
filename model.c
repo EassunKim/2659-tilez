@@ -1,3 +1,18 @@
+/*------------------------------------------------------------
+* File: model.c
+*
+* PURPOSE: Implements the game model described in model.h
+           Loads levels, holds player/ally data (positions, spawns), level compelteness
+           level resets, tile property checks, and movement
+*
+* NOTES:   
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #include <stddef.h>
 #include "model.h"
 

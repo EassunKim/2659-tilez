@@ -1,3 +1,17 @@
+
+/*------------------------------------------------------------
+* File: levels.c
+*
+* PURPOSE: Implements the functions from levels.h
+           Holds the arrays of level data for our levels
+*
+* NOTES:   As of 11/25 checkpoint 4 - Placeholder level is still the main one.
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew
+*------------------------------------------------------------*/
+
 #include <stddef.h>
 #include "levels.h"
 

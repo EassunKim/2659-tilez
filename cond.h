@@ -30,3 +30,14 @@ void cond_after_move(Model *model, BOOL player_moved, BOOL ally_moved);
 void cond_check(Model *model);
 
 #endif
+/*------------------------------------------------------------
+* File: cond.h
+*
+* PURPOSE: Declares the condition-based event handlers, which check the game rules after a move 
+*           (slip tiles, fire, reaching the goal).
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+

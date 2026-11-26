@@ -1,3 +1,14 @@
+/*------------------------------------------------------------
+* File: types.h
+*
+* PURPOSE: Defines the types that will be used for out project (UINT8, UINT16,
+*          UINT32, INT16, BOOL)
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
 #ifndef TYPES_H
 #define TYPES_H
  

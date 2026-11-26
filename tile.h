@@ -1,3 +1,15 @@
+/*------------------------------------------------------------
+* File: tile.h
+*
+* PURPOSE: gives values to define tile types (Fire, normal etc.), wall values on each tile,
+           and declares functions for tile.c
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #ifndef TILE_H
 #define TILE_H
 

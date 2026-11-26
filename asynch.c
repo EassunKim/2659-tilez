@@ -1,3 +1,16 @@
+/*------------------------------------------------------------
+* File: asynch.c
+*
+* PURPOSE: Implements keypress handlers
+*
+* NOTES: Added the move sound effect as of checkpoint 4
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
+
 #include "asynch.h"
 #include "effects.h"
 

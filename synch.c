@@ -1,3 +1,13 @@
+/*------------------------------------------------------------
+* File: synch.c
+*
+* PURPOSE: Implements the per-tick handlers, including the blocked-character counters
+*
+* Course:  COMP 2659
+* Team Members: Matthew Kim, Ujjwal Bhandari
+* Author: Matthew Kim
+*------------------------------------------------------------*/
+
 #include "synch.h"
 
 void synch_tick(Model *model) {
