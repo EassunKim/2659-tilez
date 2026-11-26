@@ -31,10 +31,16 @@ tst_music.tos
 
 The sound effect files. For the submission of this checkpoint we chose to include one sound effect for coming in contact with a fire tile and one for the player moving.
 
+#### `splash.h` / `splash.c` / `splashbg.c` / `splashbg.h` - written by Matthew
+
+functions to draw the splash screen into the frame buffer. The bitmap is contained within splashbg.c. Splash.c will draw the map to the screen and draw a square using plot_rectangle() to highlight the options. Upon pressing A or D, the highlight will move simulating menu movement
+
 #### `tilez.c`, `cond.c`, `asynch.c` additions - written by Matthew Kim
 
 - Added the main song loop into the main game loop in tilez.c and added the sound effects to their respective events.
 - Added play_fire and play_move to their respective events. Functioning in the main game.
+- Moved main game loop from main into play() to clean up adding the splash screen prior to gameplay
+- The original bitmap for splashbg was 32000 items which caused a memory error, AI was used to compress the input
 
 ### Other Fixes and notes
 
