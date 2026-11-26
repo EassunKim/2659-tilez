@@ -6,6 +6,7 @@
 #   make tst_rend.tos  builds the renderer test driver (draws on screen)
 #	make tilez.tos	   builds the main game
 # 	make tst_psg.tos   builds the tester for our psg file
+#	make tst_mus.tos builds the tester for our music loop
 #   make all           builds all above
 
 # header groups (each includes the ones it depends on)
@@ -19,8 +20,11 @@ FONT_H     	= font.h types.h
 RENDERER_H 	= renderer.h $(MODEL_H)
 BITMAPS_H  	= bitmaps.h types.h
 INPUT_H		= input.h types.h
-EVENTS_H	= cond.h asynch.h synch.h
 PSG_H		= types.h psg.h
+MUSIC_H		= music.h types.h 
+EFFECTS_H	= effects.h types.h
+SPLASH_H 	= splash.h types.h
+SPLASHBG_H	= splashbg.h types.h
 
 # object groups
 MODEL_OBJS  = model.o player.o tile.o levels.o asynch.o synch.o cond.o
@@ -29,8 +33,8 @@ RENDER_OBJS = renderer.o bitmaps.o
 
 # ---------- programs ----------
 
-tst_modl.tos: tst_modl.o $(MODEL_OBJS)
-	cc68x -g tst_modl.o $(MODEL_OBJS) -o tst_modl.tos
+tst_modl.tos: tst_modl.o effects.o psg.o $(MODEL_OBJS)
+	cc68x -g tst_modl.o $(MODEL_OBJS) effects.o psg.o -o tst_modl.tos
 
 tst_rast.tos: TEST.o $(RASTER_OBJS)
 	cc68x -g TEST.o $(RASTER_OBJS) -o tst_rast.tos
@@ -38,14 +42,16 @@ tst_rast.tos: TEST.o $(RASTER_OBJS)
 rendtest.tos: rendtest.o $(RENDER_OBJS) $(RASTER_OBJS)
 	cc68x -g rendtest.o $(RENDER_OBJS) $(RASTER_OBJS) -o rendtest.tos
 
-tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS)
-	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) -o tst_rend.tos
+tst_rend.tos: tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o
+	cc68x -g tst_rend.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o -o tst_rend.tos
 
-tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o
-	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o -o tilez.tos
+tilez.tos: tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) input.o effects.o psg.o music.o splash.o splashbg.o
+	cc68x -g tilez.o $(MODEL_OBJS) $(RENDER_OBJS) $(RASTER_OBJS) effects.o psg.o input.o music.o splash.o splashbg.o -o tilez.tos
 
+tst_mus.tos: tst_mus.o music.o psg.o 
+	cc68x -g tst_mus.o music.o psg.o -o tst_mus.tos
 
-all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos
+all: tst_modl.tos tst_rast.tos rendtest.tos tst_rend.tos tilez.tos tst_mus.tos
 
 # ---------- model ----------
 
@@ -63,13 +69,13 @@ model.o: model.c $(MODEL_H)
 
 # ---------- events ----------
 
-asynch.o: asynch.c asynch.h $(MODEL_H)
+asynch.o: asynch.c asynch.h $(MODEL_H) $(EFFECTS_H)
 	cc68x -g -c asynch.c
 
 synch.o: synch.c synch.h $(MODEL_H)
 	cc68x -g -c synch.c
 
-cond.o: cond.c cond.h $(MODEL_H)
+cond.o: cond.c cond.h $(MODEL_H) $(EFFECTS_H)
 	cc68x -g -c cond.c
 
 # ---------- raster ----------
@@ -95,15 +101,28 @@ input.o: input.c $(INPUT_H)
 	cc68x -g -c input.c
 
 # ---------- main game ----------	
-tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H)
+tilez.o: tilez.c $(MODEL_H) $(RENDERER_H) $(RASTER_H) $(INPUT_H) $(EVENTS_H) $(MUSIC_H) $(PSG_H) $(SPLASH_H) $(SPLASHBG_H)
 	cc68x -g -c tilez.c
 
 #----------- sound --------------
 psg.o: psg.c $(PSG_H)
 	cc68x -g -c psg.c
 
-# ---------- tests ----------
+music.o: music.c $(MUSIC_H) $(PSG_H)
+	cc68x -g -c music.c
 
+effects.o: effects.c $(PSG_H) $(EFFECTS_H)
+	cc68x -g -c effects.c
+
+#----------- title screen --------------
+splash.o: splash.c $(SPLASH_H) $(RASTER_H) $(INPUT_H) $(SPLASHBG_H)
+	cc68x -g -c splash.c
+
+splashbg.o: splashbg.c $(SPLASHBG_H)
+	cc68x -g -c splashbg.c
+
+
+# ---------- tests ----------
 tst_modl.o: tst_modl.c $(EVENTS_H)
 	cc68x -g -c tst_modl.c
 
@@ -118,3 +137,6 @@ rendtest.o: rendtest.c $(RENDERER_H)
 
 tst_psg.o: tst_psg.c $(PSG_H)
 	cc68x -g -c tst_psg.c
+
+tst_mus.o: tst_mus.c $(MUSIC_H) $(PSG_H)
+	cc68x -g -c tst_mus.c

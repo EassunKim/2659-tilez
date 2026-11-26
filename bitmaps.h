@@ -19,6 +19,9 @@ extern const UINT16 player_bitmaps[4][CHAR_HEIGHT]; /* index matches directions 
 extern const UINT16 ally_bitmaps[4][CHAR_HEIGHT];   /* same as above, but sprites for the ally */
 extern const UINT16 player_blocked_bitmaps[4][CHAR_HEIGHT]; /* sprites for the blocked player*/
 extern const UINT16 ally_blocked_bitmaps[4][CHAR_HEIGHT]; /* same as above, for the ally*/
+extern const UINT32 tile_alt_bitmaps[5][TILE_HEIGHT];   /* second animation frame, same order as tile_bitmaps */
+extern const UINT16 player_alt_bitmaps[4][CHAR_HEIGHT]; /* second animation frame for the player */
+extern const UINT16 ally_alt_bitmaps[4][CHAR_HEIGHT];   /* second animation frame for the ally */
 
 extern const UINT32 wall_horizontal[WALL_ATSU];     /*extra layers to the horizontal walls*/
 extern const UINT32 wall_vertical[WALL_LENGTH];   

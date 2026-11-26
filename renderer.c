@@ -9,15 +9,34 @@
 #define SCREEN_WIDTH 640
 #define FONT_WIDTH 8
 #define TEXT_COL 300 /* centered */
-#define LEVEL_ROW 350
+#define LEVEL_ROW 376
 #define TITLE_ROW 16
 
+/*----- Function: animate -----
+* PURPOSE: based on the clock ticks (0 and 1/2 through the cycle), checks the animation state
+*          (declared as anim_state in each function it is used) of the model.
+*
+* INPUT:   model - the game state to draw
+*
+* OUTPUT:  a UINT8 that is 0 when model ticks is below 1/2 and 1 otherwise
+*/
+static UINT8 animate(const Model *model) {
+    UINT8 ticks = model->tick_count;
+    if (ticks < (TICKS_PER_SECOND/2)) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
 
-void render_tile(const Tile *tile, UINT8 *base, int row, int col)
+void render_tile(const Tile *tile, UINT8 *base, int row, int col, UINT8 anim_state)
 {
-    plot_32bit_bitmap((UINT32 *)base, row, col, tile_bitmaps[tile->type], TILE_HEIGHT);
+    const UINT32 *tile_map = tile_bitmaps[tile->type];
 
-
+    if (anim_state) {
+        tile_map = tile_alt_bitmaps[tile->type];
+    }
+    plot_32bit_bitmap((UINT32 *)base, row, col, tile_map, TILE_HEIGHT);
     render_walls(tile, base, row, col);
 }
 
@@ -44,8 +63,8 @@ void render_walls(const Tile *tile, UINT8 *base, int row, int col)
                           row + WALL_OFFSET, col,
                           wall_vertical, WALL_LENGTH);
 }
-void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
-                  UINT8 *base)
+
+void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH], UINT8 *base, UINT8 anim_state)
 {
     int row, col;
 
@@ -55,13 +74,14 @@ void render_board(const Tile board[GRID_HEIGHT][GRID_WIDTH],
         {
             render_tile(&board[row][col], base,
                         40 + row * TILE_HEIGHT,
-                        160 + col * TILE_WIDTH);
+                        160 + col * TILE_WIDTH,
+                        anim_state);
         }
     }
 }
 
 
-void render_player(const Player *player, UINT8 *base, BOOL blocked)
+void render_player(const Player *player, UINT8 *base, BOOL blocked, UINT8 anim_state)
 {
     int row, col;
     const UINT16 *player_maps = player_bitmaps[player->facing];
@@ -71,18 +91,24 @@ void render_player(const Player *player, UINT8 *base, BOOL blocked)
 
     if (blocked) {
         player_maps = player_blocked_bitmaps[player->facing];
+    } else if (anim_state)
+    {
+         player_maps = player_alt_bitmaps[player->facing];
     }
 
     plot_16bit_bitmap((UINT16 *)base, row+ CHAR_OFFSET, col+ CHAR_OFFSET, player_maps, CHAR_HEIGHT);
 }
 
-void render_ally(const Player *player, UINT8 *base, BOOL blocked)
+void render_ally(const Player *player, UINT8 *base, BOOL blocked, UINT8 anim_state)
 {
     int row, col;
     const UINT16 *ally_maps = ally_bitmaps[player->facing];
 
     if (blocked) {
         ally_maps = ally_blocked_bitmaps[player->facing];
+    } else if (anim_state)
+    {
+        ally_maps = ally_alt_bitmaps[player->facing];
     }
 
     row = 40 + player->y * TILE_HEIGHT;
@@ -106,6 +132,7 @@ void render_ally(const Player *player, UINT8 *base, BOOL blocked)
 static void redraw_tile(const Model *model, UINT8 *base, int row, int col){
     int screen_row = 40 + row * TILE_HEIGHT;
     int screen_col = 160 + col * TILE_WIDTH;
+    UINT8 anim_state = animate(model);
 
     /*Clear the previous tile*/
     clear_region((UINT32 *)base, screen_row, 
@@ -113,27 +140,59 @@ static void redraw_tile(const Model *model, UINT8 *base, int row, int col){
 
     /*Restore a tile*/
     render_tile(&model->grid[row][col], base,
-                screen_row, screen_col);
+                screen_row, screen_col, anim_state);
 
     /*Redraw player/ally if they are present*/
     if (model->player.x == col && model->player.y == row)
     {
-        render_player(&model->player, base, model->player_blocked);
+        render_player(&model->player, base, model->player_blocked, anim_state);
     }
 
     if (model->ally.x == col && model->ally.y == row)
     {
-        render_ally(&model->ally, base, model->ally_blocked);
+        render_ally(&model->ally, base, model->ally_blocked, anim_state);
     }
 }
+
+/*----- Function: redraw_alts -----
+* PURPOSE: Redraws tiles and players (every animated element)
+*
+* INPUT:   model    - model to update
+*          base     - Start of the game buffer to draw into
+*
+* OUTPUT:  Updates the screen buffer with alt sprites
+*/
+static void redraw_alts(const Model *model, UINT8 *base){
+    int row, col;
+
+    /* checks if we are looking at an animated tile and redraws them depending*/
+    for (row = 0; row < GRID_HEIGHT; row++)
+    {
+        for (col = 0; col < GRID_WIDTH; col++)
+        {
+            if (model->grid[row][col].type == T_FIRE ||
+                model->grid[row][col].type == T_GOAL ||
+                model->grid[row][col].type == T_SLIP )
+            {
+                redraw_tile(model, base, row, col);
+            }
+        }
+    }
+    redraw_tile(model, base, model->player.y, model->player.x);
+    redraw_tile(model, base, model->ally.y, model->ally.x);
+}
+
 /*----- Function: redraw_player_changes -----
-* PURPOSE: Redraws tiles when a player/ally moves or changes direction
+* PURPOSE: Redraws tiles when a player/ally moves or changes direction, or its blocked state changes
 *          
 *
-* INPUT:   model    - Current game model
-*          current  - Current player/ally state
-*          previous - Previous player/ally state
-*          base     - Start of the game buffer to draw into
+* INPUT:   model        - Current game model
+*          current      - Current player/ally state
+*          previous     - Previous player/ally state
+*          base         - Start of the game buffer to draw into
+*          cur_blocked  - timer for how long the character is currently blocked for (20ticks -> 0)
+*          prev_blocked - the blocked counter when this buffer was last drawn. If it differs from cur_blocked 
+*                         (0 or !0), the sprite is redrawn.
 *
 *
 * OUTPUT:  Updates the screen buffer with changed tiles
@@ -209,6 +268,9 @@ void render_changes(const Model *current, const Model *previous, UINT8 *base){
 
     /*Redraw changes on tiles, walls, player, and ally*/ 
     redraw_board_changes(current, previous, base);
+    if (animate(current) != animate(previous)) {
+        redraw_alts(current, base);
+    }
 
     redraw_player_changes(current, &current->player,
                          &previous->player, base, current->player_blocked, previous->player_blocked);
@@ -217,7 +279,7 @@ void render_changes(const Model *current, const Model *previous, UINT8 *base){
                          &previous->ally, base, current->ally_blocked, previous->ally_blocked);
 }
 
-/*----- Function: render -----
+/*----- Function: render_title -----
 * PURPOSE: Draws the title "TiLEZ" to the screen and the level # as well
 *
 * INPUT:   model - the game state to draw, used for level #
@@ -235,9 +297,12 @@ static void render_title(const Model *model, UINT8 *base) {
     plot_string(base, LEVEL_ROW, TEXT_COL, level_txt);
 }
 
+
+
 /*----- Function: render -----
 * PURPOSE: Draws one full frame of the game from the model: clears the
-*          screen, then draws the board, the player and the ally.
+*          screen, then draws the board, the player and the ally. Also,
+*          draws the game name and level #
 *
 * INPUT:   model - the game state to draw
 *          base  - start of the frame buffer to draw into
@@ -248,10 +313,11 @@ static void render_title(const Model *model, UINT8 *base) {
 */
 void render(const Model *model, UINT8 *base)
 {
+    UINT8 anim_state = animate(model);
     clear_screen((UINT32 *)base);
 
-    render_board(model->grid, base);
+    render_board(model->grid, base, anim_state);
     render_title(model, base);
-    render_player(&model->player, base, model->player_blocked);
-    render_ally(&model->ally, base, model->ally_blocked);
+    render_player(&model->player, base, model->player_blocked, anim_state);
+    render_ally(&model->ally, base, model->ally_blocked, anim_state);
 }

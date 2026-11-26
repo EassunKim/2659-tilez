@@ -1,8 +1,10 @@
 #include "asynch.h"
+#include "effects.h"
 
 void asynch_forward(Model *model) {
     if (model->level_complete)
         return;
+    play_move();
     model->input = REQ_FORWARD;
 }
 
