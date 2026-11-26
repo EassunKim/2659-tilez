@@ -10,15 +10,19 @@
 
 ### Files Completed
 
-#### `psg.h` / `psg.c` — written by Ujjwal
+#### `psg.h` / `psg.c` - written by Ujjwal
 
 A functioning psg module used in both the game's main theme loop and in its sound effects.
 
-#### `music.c` / `music.h` — written by Matthew
+#### `tst_psg.c` - written by Ujjwal
+
+tester for Ujjwal's psg function. Goes through all functions in psg and confirms the register is in the correct state
+
+#### `music.c` / `music.h` - written by Matthew
 
 The two files as specified by the checkpoint 4 pdf. They utilize the psg functions to implement `start_music` and `update_music`.
 
-#### `tst_mus.c` — written by Matthew
+#### `tst_mus.c` - written by Matthew
 
 A lightweight tester that simply plays our song. Can be used by running these two commands in `gu`:
 
