@@ -6,6 +6,9 @@
 - Mohamad Hamade (Withdrew from course after work on checkpoint 2)
 - Ujjwal Bhandari
 
+## How to Play / Test
+All files can be made via our MakeFile. Running `make all` will make all our testers (tst_*.tos) and the main game (tilez.tos) that can be run through gulam or the STEEM desktop
+
 ## Checkpoint 4 - November 25 (use of class allotted 2 day extension)
 
 ### Files Completed
