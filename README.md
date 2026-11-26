@@ -57,6 +57,10 @@ functions to draw the splash screen into the frame buffer. The bitmap is contain
 - Added in printing to the main game screen. The game title and the current level are now printed above and below the level grid respectively.
 - Changed the sprite for the slip tile. The old one was a right facing arrow that was causing confusion when encountered any way that wasn't from the right. Replaced with my best effort at an "icy tile".
 
+Did a comment check over/fix 
+- Added proper headers to `types.h`, `tile.c/.h`, `player.c/.h`, `levels.h`, `synch.c/.h`, `music.c`, `model.c/.h`, `events.h`, `cond.c/.h`, `asynch.c/.h`
+- Moved comments to header file in `player.h` from `player.c`
+
 #### Notes
 
 - The current main theme is a place holder
