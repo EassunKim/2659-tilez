@@ -7,7 +7,7 @@
 - Ujjwal Bhandari
 
 ## How to Play / Test
-All files can be made via our MakeFile. Running `make all` will make all our testers (tst_*.tos) and the main game (tilez.tos) that can be run through gulam or the STEEM desktop
+All files can be made via our MakeFile. Running `make all` will make all our testers (tst_*.tos) and the main game (tilez.tos) that can be run through gulam or the STEEM desktop. To make specific files please see documentation at the top of MAKEFILE
 
 ## Checkpoint 4 - November 25 (use of class allotted 2 day extension)
 
